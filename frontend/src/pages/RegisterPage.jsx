@@ -66,7 +66,7 @@ export const RegisterPage = () => {
               required
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="Harsh (CSE)"
+              placeholder="Your Full Name"
               className="w-full px-3.5 py-2 rounded-lg border border-zinc-700 bg-zinc-950 text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-emerald-500 text-xs"
             />
           </div>
@@ -80,7 +80,7 @@ export const RegisterPage = () => {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="harsh@test.com"
+              placeholder="developer@company.com"
               className="w-full px-3.5 py-2 rounded-lg border border-zinc-700 bg-zinc-950 text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-emerald-500 text-xs"
             />
           </div>
@@ -122,9 +122,6 @@ export const RegisterPage = () => {
               Sign In
             </Link>
           </p>
-          <div className="text-[11px] text-zinc-500 pt-1">
-            Student Project: Harsh (Computer Science &amp; Engineering)
-          </div>
         </div>
       </div>
     </div>

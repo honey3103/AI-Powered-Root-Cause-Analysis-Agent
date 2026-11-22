@@ -75,15 +75,6 @@ export const Sidebar = () => {
           </div>
         </div>
       </div>
-
-      {/* Footer Info */}
-      <div className="pt-3 border-t border-zinc-800 text-[11px] text-zinc-500 flex items-center justify-between">
-        <span className="flex items-center gap-1.5">
-          <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
-          Status: Local Server
-        </span>
-        <span className="text-zinc-400">Harsh (CSE)</span>
-      </div>
     </aside>
   );
 };

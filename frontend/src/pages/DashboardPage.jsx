@@ -81,7 +81,7 @@ export const DashboardPage = () => {
   return (
     <div className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto space-y-6 text-zinc-100">
       {/* Top Project Status Bar */}
-      <div className="p-3.5 rounded-xl border border-zinc-800 bg-zinc-900/60 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+      <div className="p-3.5 rounded-xl border border-zinc-800 bg-zinc-900/60 flex items-center justify-between gap-3 text-xs">
         <div className="flex items-center gap-2 text-zinc-300">
           <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
           <span className="font-semibold text-white">Incident Operations Dashboard</span>
@@ -89,10 +89,6 @@ export const DashboardPage = () => {
           <span className="text-zinc-400 text-xs hidden sm:inline">
             Status: Sprint 3 Active (~76% Implemented)
           </span>
-        </div>
-        <div className="flex items-center gap-2 text-xs">
-          <span className="text-zinc-400">Developer:</span>
-          <span className="text-emerald-400 font-medium">Harsh (CSE)</span>
         </div>
       </div>
 

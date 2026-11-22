@@ -36,9 +36,6 @@ export const Navbar = () => {
                 <span className="font-semibold text-sm tracking-tight text-white">
                   RCA Agent
                 </span>
-                <span className="text-[11px] px-2 py-0.5 rounded bg-zinc-900 border border-zinc-800 text-zinc-400 hidden sm:inline">
-                  Harsh (CSE)
-                </span>
               </div>
             </Link>
 

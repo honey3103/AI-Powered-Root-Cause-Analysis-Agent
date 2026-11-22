@@ -69,10 +69,6 @@ export const SettingsPage = () => {
             Configure telemetry providers, offline reasoning heuristics, and LLM orchestration parameters.
           </p>
         </div>
-        <div className="text-right text-[11px] text-zinc-500 hidden sm:block">
-          <span>Author: </span>
-          <span className="text-emerald-400 font-bold">Harsh (CSE)</span>
-        </div>
       </div>
 
       {savedSuccess && (

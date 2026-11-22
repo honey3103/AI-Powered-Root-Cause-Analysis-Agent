@@ -34,17 +34,10 @@ export const LandingPage = () => {
             A full-stack diagnostic web application built to analyze production incident logs, correlate system errors, and deduce root causes using the structured <strong>Five Whys</strong> engineering methodology.
           </p>
 
-          {/* Student Info & Status Banner */}
-          <div className="p-3 rounded-lg border border-zinc-800 bg-zinc-900/60 max-w-xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-zinc-400">
-            <div>
-              <span>Student Developer: </span>
-              <strong className="text-emerald-400">Harsh</strong> (CSE)
-            </div>
-            <div className="hidden sm:block text-zinc-600">•</div>
-            <div>
-              <span>Project Status: </span>
-              <span className="text-white font-medium">Sprint 3 (~76% Implemented)</span>
-            </div>
+          {/* Status Banner */}
+          <div className="p-2.5 rounded-lg border border-zinc-800 bg-zinc-900/60 max-w-sm mx-auto flex items-center justify-center gap-2 text-xs text-zinc-400">
+            <span>Project Status: </span>
+            <span className="text-emerald-400 font-medium">Sprint 3 (~76% Implemented)</span>
           </div>
 
           {/* Call to Action Buttons */}
@@ -220,10 +213,10 @@ export const LandingPage = () => {
         {/* Footer */}
         <footer className="pt-6 border-t border-zinc-800/80 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-zinc-500">
           <div>
-            AI-Powered Root Cause Analysis Agent • Final Year Project
+            AI-Powered Root Cause Analysis Agent
           </div>
           <div>
-            Built by <span className="text-zinc-300 font-medium">Harsh</span> (Computer Science &amp; Engineering)
+            Automated SRE &amp; Incident Triage Platform
           </div>
         </footer>
 

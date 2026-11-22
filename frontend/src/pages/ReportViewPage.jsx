@@ -265,8 +265,8 @@ export const ReportViewPage = () => {
 
         {/* Footer */}
         <div className="pt-4 border-t border-zinc-800 text-[10px] text-zinc-500 flex justify-between items-center">
-          <span>Coroot AI Incident Architecture • Confidential SRE Post-Mortem</span>
-          <span>Lead Investigator: Harsh (CSE)</span>
+          <span>RCA Incident Architecture • Confidential Post-Mortem Report</span>
+          <span>Lead Investigator: {data?.analysis?.user?.name || 'SRE Lead'}</span>
         </div>
       </div>
     </div>

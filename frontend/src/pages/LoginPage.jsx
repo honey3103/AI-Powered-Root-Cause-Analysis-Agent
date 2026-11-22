@@ -118,9 +118,6 @@ export const LoginPage = () => {
               Register here
             </Link>
           </p>
-          <div className="text-[11px] text-zinc-500 pt-1">
-            Student Project: Harsh (Computer Science &amp; Engineering)
-          </div>
         </div>
       </div>
     </div>
