@@ -59,7 +59,7 @@ export const DashboardPage = () => {
       <div className="p-8 flex items-center justify-center min-h-[400px]">
         <div className="flex flex-col items-center gap-2">
           <div className="w-8 h-8 border-2 border-[#dfe1e6] border-t-[#0052cc] rounded-full animate-spin"></div>
-          <span className="text-xs text-[#5e6c84]">Loading Jira dashboard gadgets...</span>
+          <span className="text-xs text-[#5e6c84]">Loading dashboard...</span>
         </div>
       </div>
     );

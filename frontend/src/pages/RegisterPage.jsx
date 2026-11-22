@@ -44,7 +44,7 @@ export const RegisterPage = () => {
               <path d="M11.53 2c0 2.4 1.97 4.35 4.35 4.35h1.78v1.74c0 2.4 1.97 4.35 4.34 4.35V2h-10.47zm-4.7 4.78c0 2.4 1.97 4.35 4.35 4.35h1.78v1.75c0 2.4 1.97 4.35 4.35 4.35V6.78H6.83zm-4.7 4.79c0 2.4 1.97 4.35 4.35 4.35h1.78v1.74c0 2.4 1.97 4.35 4.35 4.35v-10.44H2.13z"/>
             </svg>
             <span className="text-2xl font-bold tracking-tight text-[#172b4d]">
-              Jira <span className="font-normal text-[#5e6c84]">Software</span>
+              RCA <span className="font-normal text-[#5e6c84]">Agent</span>
             </span>
           </div>
           <h2 className="text-base font-semibold text-[#172b4d] pt-1">

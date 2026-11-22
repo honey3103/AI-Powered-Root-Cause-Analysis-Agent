@@ -39,7 +39,7 @@ export const Navbar = () => {
                 </svg>
               </div>
               <span className="font-bold text-base tracking-tight text-[#172b4d]">
-                Jira <span className="font-normal text-[#5e6c84]">Software</span>
+                RCA <span className="font-normal text-[#5e6c84]">Agent</span>
               </span>
             </Link>
 

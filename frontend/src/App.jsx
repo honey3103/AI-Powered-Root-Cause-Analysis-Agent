@@ -2,7 +2,7 @@
  * Project: AI-Powered Root Cause Analysis Agent
  * Author: Harsh (CSE)
  * File: App.jsx
- * Description: Main React routing setup with Jira Software enterprise layout.
+ * Description: Main React routing setup with clean enterprise light layout.
  */
 
 import React from 'react';
@@ -33,7 +33,7 @@ const ProtectedRoute = ({ children }) => {
       <div className="min-h-screen flex items-center justify-center bg-[#f4f5f7] text-[#172b4d]">
         <div className="flex flex-col items-center gap-2">
           <div className="w-8 h-8 border-2 border-[#dfe1e6] border-t-[#0052cc] rounded-full animate-spin"></div>
-          <span className="text-xs text-[#5e6c84]">Loading Jira workspace...</span>
+          <span className="text-xs text-[#5e6c84]">Loading workspace...</span>
         </div>
       </div>
     );
