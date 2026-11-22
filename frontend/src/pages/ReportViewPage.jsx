@@ -1,3 +1,11 @@
+/**
+ * Project: AI-Powered Root Cause Analysis Agent
+ * Developer: Harsh (CSE)
+ * File: ReportViewPage.jsx
+ * Description: Formats an incident investigation into a formal printable 
+ *              post-mortem report and audit sheet.
+ */
+
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import api from '../api/client';
@@ -5,11 +13,11 @@ import {
   ArrowLeft, 
   Printer, 
   Download, 
-  CheckCircle2, 
+  CheckCircle, 
   Zap, 
   Clock, 
   ShieldCheck,
-  Terminal
+  GraduationCap
 } from 'lucide-react';
 
 export const ReportViewPage = () => {
@@ -17,6 +25,7 @@ export const ReportViewPage = () => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // load report data
   useEffect(() => {
     fetchReport();
   }, [id]);
@@ -44,10 +53,10 @@ export const ReportViewPage = () => {
 
   if (loading) {
     return (
-      <div className="p-8 flex items-center justify-center min-h-[400px]">
+      <div className="p-8 flex items-center justify-center min-h-[350px]">
         <div className="flex flex-col items-center gap-2">
           <div className="w-6 h-6 border-2 border-slate-700 border-t-sky-500 rounded-full animate-spin"></div>
-          <span className="text-xs font-mono text-slate-400">Rendering report audit view...</span>
+          <span className="text-xs font-mono text-slate-400">Formatting post-mortem audit report...</span>
         </div>
       </div>
     );
@@ -67,7 +76,7 @@ export const ReportViewPage = () => {
   const { analysis, result, evidenceList, generatedAt } = data;
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8 max-w-4xl mx-auto space-y-5">
+    <div className="p-4 sm:p-6 lg:p-8 max-w-4xl mx-auto space-y-5 font-sans">
       {/* Top action controls (hidden on print) */}
       <div className="no-print flex items-center justify-between gap-3 border-b border-slate-200 dark:border-slate-800 pb-3">
         <Link
@@ -75,7 +84,7 @@ export const ReportViewPage = () => {
           className="inline-flex items-center gap-1.5 text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
-          Back to Incident View
+          Back to Incident
         </Link>
 
         <div className="flex items-center gap-2 text-xs">
@@ -84,11 +93,11 @@ export const ReportViewPage = () => {
             className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 font-medium transition"
           >
             <Printer className="w-3.5 h-3.5" />
-            Print
+            Print Report
           </button>
           <button
             onClick={downloadPDF}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 dark:bg-sky-600 dark:hover:bg-sky-500 text-white font-medium transition shadow-xs"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white font-medium transition shadow-xs"
           >
             <Download className="w-3.5 h-3.5" />
             Export PDF
@@ -103,11 +112,11 @@ export const ReportViewPage = () => {
           <div>
             <div className="flex items-center gap-2">
               <span className="font-mono font-bold text-sm text-slate-900 dark:text-white">
-                INCIDENT POST-MORTEM &amp; ROOT CAUSE REPORT
+                INCIDENT ROOT CAUSE POST-MORTEM REPORT
               </span>
             </div>
             <p className="text-[11px] text-slate-500 font-mono mt-0.5">
-              Ref: INC-{analysis._id.substring(0, 8).toUpperCase()} • Document Status: Draft / Reviewed
+              Ref: INC-{analysis._id.substring(0, 8).toUpperCase()} • Project: AI-Powered RCA Agent
             </p>
           </div>
           <div className="text-right text-[11px] text-slate-400 font-mono space-y-0.5">
@@ -262,10 +271,10 @@ export const ReportViewPage = () => {
           </div>
         </div>
 
-        {/* Footer */}
+        {/* Student submission footer */}
         <div className="pt-4 border-t border-slate-200 dark:border-slate-800 text-[10px] font-mono text-slate-400 flex justify-between items-center">
-          <span>Root Cause Analyser • Mini-Project Version 0.8.2-beta</span>
-          <span>Investigator: Harsh</span>
+          <span>Project: Root Cause Analyser • Mini Project 2026</span>
+          <span>Investigator / Student: Harsh (CSE)</span>
         </div>
       </div>
     </div>

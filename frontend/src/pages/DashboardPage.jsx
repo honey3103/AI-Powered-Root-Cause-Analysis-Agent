@@ -1,3 +1,10 @@
+/**
+ * Project: AI-Powered Root Cause Analysis Agent
+ * Developer: Harsh (CSE)
+ * File: DashboardPage.jsx
+ * Description: Fetches and displays incident counts and category/severity charts using Recharts.
+ */
+
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../api/client';
@@ -12,8 +19,7 @@ import {
   BarChart2,
   PieChart as PieIcon,
   Search,
-  GitBranch,
-  Terminal
+  BookOpen
 } from 'lucide-react';
 import { 
   ResponsiveContainer, 
@@ -28,24 +34,30 @@ import {
 } from 'recharts';
 
 export const DashboardPage = () => {
+  // state for holding metrics received from /api/analysis/dashboard/stats
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // load dashboard statistics when component mounts
   useEffect(() => {
-    fetchStats();
+    fetchDashboardStats();
   }, []);
 
-  const fetchStats = async () => {
+  const fetchDashboardStats = async () => {
     try {
-      const res = await api.get('/analysis/dashboard/stats');
-      setStats(res.data);
+      setLoading(true);
+      // calling express backend api
+      const response = await api.get('/analysis/dashboard/stats');
+      // console.log("Fetched stats successfully:", response.data);
+      setStats(response.data);
     } catch (err) {
-      console.error('Failed to load dashboard metrics:', err);
+      console.error('Error fetching dashboard statistics:', err);
     } finally {
       setLoading(false);
     }
   };
 
+  // color map for severity pie chart
   const SEVERITY_COLORS = {
     Critical: '#e11d48',
     High: '#ea580c',
@@ -55,113 +67,111 @@ export const DashboardPage = () => {
 
   if (loading) {
     return (
-      <div className="p-8 flex items-center justify-center min-h-[400px]">
+      <div className="p-8 flex items-center justify-center min-h-[350px]">
         <div className="flex flex-col items-center gap-2">
           <div className="w-6 h-6 border-2 border-slate-700 border-t-sky-500 rounded-full animate-spin"></div>
-          <span className="text-xs font-mono text-slate-400">Loading metrics from MongoDB...</span>
+          <span className="text-xs font-mono text-slate-400">Loading incident metrics from MongoDB...</span>
         </div>
       </div>
     );
   }
 
-  const categoryData = (stats?.categoryCounts || []).map((c) => ({
-    name: c._id || 'Other',
-    count: c.count,
+  // format data for recharts bar chart
+  const categoryData = (stats?.categoryCounts || []).map((item) => ({
+    name: item._id || 'Other',
+    count: item.count,
   }));
 
-  const severityData = (stats?.severityCounts || []).map((s) => ({
-    name: s._id || 'Medium',
-    value: s.count,
-    color: SEVERITY_COLORS[s._id] || '#0284c7',
+  // format data for recharts pie chart
+  const severityData = (stats?.severityCounts || []).map((item) => ({
+    name: item._id || 'Medium',
+    value: item.count,
+    color: SEVERITY_COLORS[item._id] || '#0284c7',
   }));
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto space-y-6">
-      {/* 76% Milestone Bar */}
-      <div className="p-3.5 rounded-xl border border-amber-500/30 bg-amber-50/50 dark:bg-amber-950/20 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
-        <div className="flex items-center gap-2 text-amber-900 dark:text-amber-300">
-          <GitBranch className="w-4 h-4 text-amber-500" />
-          <span className="font-mono font-bold">Project Milestone: Sprint 3 (76% Done)</span>
+    <div className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto space-y-6 font-sans">
+      {/* Student Milestone Header */}
+      <div className="p-3.5 rounded-xl border border-amber-300 dark:border-amber-800 bg-amber-50/50 dark:bg-amber-950/20 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+        <div className="flex items-center gap-2 text-amber-900 dark:text-amber-300 font-mono">
+          <BookOpen className="w-4 h-4 text-amber-600 dark:text-amber-400" />
+          <span className="font-bold">Mini Project Progress: 76% (Module 1-4 Complete)</span>
           <span className="text-slate-400 hidden sm:inline">•</span>
           <span className="text-slate-600 dark:text-slate-300 text-[11px] hidden sm:inline">
-            Incident logging, 5 Whys deduction, and log extraction operational. Report polishing in progress.
+            Incident logging, 5 Whys deduction, and log parsing are functional.
           </span>
         </div>
-        <div className="flex items-center gap-2">
-          <div className="w-24 bg-slate-200 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
-            <div className="bg-amber-500 h-full rounded-full" style={{ width: '76%' }}></div>
-          </div>
-          <span className="font-mono text-[11px] text-amber-700 dark:text-amber-400 font-bold">76%</span>
+        <div className="flex items-center gap-2 font-mono text-[11px]">
+          <span className="text-amber-700 dark:text-amber-400 font-bold">Harsh (CSE)</span>
         </div>
       </div>
 
-      {/* Top Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 dark:border-slate-800 pb-4">
+      {/* Page Title & Button */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 dark:border-slate-800 pb-3">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white font-mono flex items-center gap-2">
-            <Terminal className="w-5 h-5 text-sky-500" />
-            incidents / overview
+          <h1 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">
+            Incident Operations Dashboard
           </h1>
           <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-            Real-time status of logged software incidents, system faults, and Five Whys analyses.
+            Overview of logged technical issues, active investigations, and severity breakdown.
           </p>
         </div>
         <div>
           <Link
             to="/new-analysis"
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-semibold text-white bg-slate-900 hover:bg-slate-800 dark:bg-sky-600 dark:hover:bg-sky-500 transition shadow-sm"
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold text-white bg-sky-600 hover:bg-sky-500 transition shadow-xs"
           >
             <PlusCircle className="w-3.5 h-3.5" />
-            Log Incident
+            Log New Incident
           </Link>
         </div>
       </div>
 
-      {/* Stat Cards */}
+      {/* 4 Counter Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
         <div className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs">
-          <span className="text-[11px] font-mono uppercase tracking-wider text-slate-400 block">Total Logged</span>
+          <span className="text-[11px] font-mono uppercase text-slate-400 block font-semibold">Total Logged</span>
           <div className="text-2xl font-bold text-slate-900 dark:text-white font-mono mt-1">
             {stats?.totalAnalyses || 0}
           </div>
-          <span className="text-[10px] text-slate-500 mt-1 block">Active investigations</span>
+          <span className="text-[10px] text-slate-500 mt-0.5 block">Total investigations</span>
         </div>
 
         <div className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs">
-          <span className="text-[11px] font-mono uppercase tracking-wider text-amber-600 dark:text-amber-400 block">Open Issues</span>
+          <span className="text-[11px] font-mono uppercase text-amber-600 dark:text-amber-400 block font-semibold">Open Issues</span>
           <div className="text-2xl font-bold text-amber-600 dark:text-amber-400 font-mono mt-1">
             {stats?.openIncidents || 0}
           </div>
-          <span className="text-[10px] text-slate-500 mt-1 block">Awaiting remediation</span>
+          <span className="text-[10px] text-slate-500 mt-0.5 block">Pending resolution</span>
         </div>
 
         <div className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs">
-          <span className="text-[11px] font-mono uppercase tracking-wider text-rose-600 dark:text-rose-400 block">High / Critical</span>
+          <span className="text-[11px] font-mono uppercase text-rose-600 dark:text-rose-400 block font-semibold">High / Critical</span>
           <div className="text-2xl font-bold text-rose-600 dark:text-rose-400 font-mono mt-1">
             {stats?.highSeverityIncidents || 0}
           </div>
-          <span className="text-[10px] text-slate-500 mt-1 block">Outage level severity</span>
+          <span className="text-[10px] text-slate-500 mt-0.5 block">High severity incidents</span>
         </div>
 
         <div className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs">
-          <span className="text-[11px] font-mono uppercase tracking-wider text-emerald-600 dark:text-emerald-400 block">Resolved</span>
+          <span className="text-[11px] font-mono uppercase text-emerald-600 dark:text-emerald-400 block font-semibold">Resolved</span>
           <div className="text-2xl font-bold text-emerald-600 dark:text-emerald-400 font-mono mt-1">
             {stats?.resolvedIncidents || 0}
           </div>
-          <span className="text-[10px] text-slate-500 mt-1 block">Cause confirmed</span>
+          <span className="text-[10px] text-slate-500 mt-0.5 block">Closed with solutions</span>
         </div>
       </div>
 
-      {/* Visual Analytics */}
+      {/* Visual Charts Section */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-        {/* Category Frequency Chart */}
+        {/* Category Frequency Bar Chart */}
         <div className="lg:col-span-2 p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs">
           <div className="flex items-center justify-between mb-3 border-b border-slate-100 dark:border-slate-800 pb-2">
-            <span className="text-xs font-mono font-bold text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
-              <BarChart2 className="w-3.5 h-3.5 text-slate-500" />
+            <span className="text-xs font-semibold text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
+              <BarChart2 className="w-3.5 h-3.5 text-sky-500" />
               Incidents by Problem Category
             </span>
-            <span className="text-[10px] font-mono text-slate-400">frequency</span>
+            <span className="text-[10px] font-mono text-slate-400">Frequency Count</span>
           </div>
 
           {categoryData.length > 0 ? (
@@ -192,16 +202,16 @@ export const DashboardPage = () => {
             </div>
           ) : (
             <div className="h-60 flex items-center justify-center text-slate-400 text-xs font-mono">
-              No incidents logged yet.
+              No incident data yet. Log your first incident to see chart.
             </div>
           )}
         </div>
 
-        {/* Severity Breakdown */}
+        {/* Severity Pie Chart */}
         <div className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs">
           <div className="flex items-center justify-between mb-3 border-b border-slate-100 dark:border-slate-800 pb-2">
-            <span className="text-xs font-mono font-bold text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
-              <PieIcon className="w-3.5 h-3.5 text-slate-500" />
+            <span className="text-xs font-semibold text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
+              <PieIcon className="w-3.5 h-3.5 text-purple-500" />
               Severity Breakdown
             </span>
           </div>
@@ -263,7 +273,7 @@ export const DashboardPage = () => {
             to="/history"
             className="text-xs font-medium text-sky-600 dark:text-sky-400 hover:underline flex items-center gap-1"
           >
-            All Incidents <ArrowRight className="w-3 h-3" />
+            View All <ArrowRight className="w-3 h-3" />
           </Link>
         </div>
 
@@ -307,7 +317,7 @@ export const DashboardPage = () => {
           </div>
         ) : (
           <div className="py-8 text-center text-xs text-slate-400 font-mono">
-            No incident records found. Click &quot;Log Incident&quot; to begin.
+            No incident records found. Click &quot;Log New Incident&quot; to begin.
           </div>
         )}
       </div>

@@ -1,3 +1,11 @@
+/**
+ * Project: AI-Powered Root Cause Analysis Agent
+ * Student: Harsh
+ * Department: Computer Science & Engineering
+ * File: App.jsx
+ * Description: Main React routing setup. Protected routes require login token.
+ */
+
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
@@ -5,6 +13,7 @@ import { ThemeProvider } from './context/ThemeContext';
 import { Navbar } from './components/Navbar';
 import { Sidebar } from './components/Sidebar';
 
+// import all application pages
 import { LandingPage } from './pages/LandingPage';
 import { LoginPage } from './pages/LoginPage';
 import { RegisterPage } from './pages/RegisterPage';
@@ -15,26 +24,30 @@ import { HistoryPage } from './pages/HistoryPage';
 import { ReportViewPage } from './pages/ReportViewPage';
 import { SettingsPage } from './pages/SettingsPage';
 
-// Protected Route Wrapper
+// Protected Route Wrapper Component
+// If user is not logged in, redirect them to /login
 const ProtectedRoute = ({ children }) => {
   const { user, loading } = useAuth();
 
+  // show simple spinner while checking localstorage auth token
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-950 text-white">
+      <div className="min-h-screen flex items-center justify-center bg-slate-900 text-white">
         <div className="w-8 h-8 border-3 border-sky-500 border-t-transparent rounded-full animate-spin"></div>
       </div>
     );
   }
 
+  // user not logged in -> redirect
   if (!user) {
     return <Navigate to="/login" replace />;
   }
 
+  // user is logged in -> render sidebar + main page content
   return (
     <div className="flex">
       <Sidebar />
-      <main className="flex-1 overflow-x-hidden min-h-[calc(100vh-4rem)]">
+      <main className="flex-1 overflow-x-hidden min-h-[calc(100vh-3.5rem)]">
         {children}
       </main>
     </div>
@@ -46,15 +59,18 @@ export default function App() {
     <ThemeProvider>
       <AuthProvider>
         <BrowserRouter>
-          <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex flex-col font-sans transition-colors duration-200">
+          <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex flex-col font-sans transition-colors duration-150">
+            {/* Top Navigation */}
             <Navbar />
+
+            {/* Application Routes */}
             <Routes>
-              {/* Public Routes */}
+              {/* Public routes */}
               <Route path="/" element={<LandingPage />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
 
-              {/* Protected RCA Application Routes */}
+              {/* Private routes (require user login) */}
               <Route
                 path="/dashboard"
                 element={
@@ -104,7 +120,7 @@ export default function App() {
                 }
               />
 
-              {/* Fallback */}
+              {/* Fallback route */}
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </div>

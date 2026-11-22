@@ -1,3 +1,10 @@
+/**
+ * Project: AI-Powered Root Cause Analysis Agent
+ * Developer: Harsh (CSE)
+ * File: NewAnalysisPage.jsx
+ * Description: Form component where user enters incident symptoms and uploads log evidence.
+ */
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../api/client';
@@ -6,9 +13,11 @@ import {
   AlertCircle, 
   Terminal,
   FileText,
-  Play
+  Play,
+  Lightbulb
 } from 'lucide-react';
 
+// list of technical problem categories
 const CATEGORIES = [
   'Website downtime',
   'API errors',
@@ -25,6 +34,7 @@ const SEVERITIES = ['Low', 'Medium', 'High', 'Critical'];
 export const NewAnalysisPage = () => {
   const navigate = useNavigate();
 
+  // form state variables
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [category, setCategory] = useState('Website downtime');
@@ -36,10 +46,11 @@ export const NewAnalysisPage = () => {
   const [additionalInfo, setAdditionalInfo] = useState('');
   const [file, setFile] = useState(null);
 
+  // loading and error state
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  // Sample templates to quickly demo
+  // helper to quickly load a 502 bad gateway demo during project viva
   const loadExample502 = () => {
     setTitle('Web Service Returning HTTP 502 Bad Gateway');
     setDescription('Immediately following the deployment of version v2.4.1 to the production Kubernetes cluster, end users reported HTTP 502 Bad Gateway errors when trying to load the website.');
@@ -52,6 +63,7 @@ export const NewAnalysisPage = () => {
     setAdditionalInfo('Database cluster CPU and connections look normal. Pod status shows CrashLoopBackOff.');
   };
 
+  // helper to quickly load a database pool saturation demo
   const loadExampleDb = () => {
     setTitle('Database Connection Pool Saturation & Query Timeouts');
     setDescription('During peak load, API endpoints began throwing 504 Gateway Timeouts. Database CPU spiked to 98% with hundreds of active client connections.');
@@ -64,10 +76,13 @@ export const NewAnalysisPage = () => {
     setAdditionalInfo('PostgreSQL connection count hit hard limit of max_connections.');
   };
 
+  // submit handler
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!title || !description) {
-      setError('Please provide at least a problem title and description');
+
+    // validation
+    if (!title.trim() || !description.trim()) {
+      setError('Please provide at least an incident title and description');
       return;
     }
 
@@ -75,6 +90,7 @@ export const NewAnalysisPage = () => {
     setLoading(true);
 
     try {
+      // step 1: call backend POST /api/analysis
       const res = await api.post('/analysis', {
         title,
         description,
@@ -89,6 +105,7 @@ export const NewAnalysisPage = () => {
 
       const analysisId = res.data.analysis._id;
 
+      // step 2: if a log file was uploaded, send it to backend using FormData
       if (file && analysisId) {
         const formData = new FormData();
         formData.append('file', file);
@@ -96,9 +113,11 @@ export const NewAnalysisPage = () => {
           headers: { 'Content-Type': 'multipart/form-data' },
         });
 
+        // re-run analysis with the uploaded evidence
         await api.post(`/analysis/${analysisId}/reanalyze`);
       }
 
+      // step 3: redirect user to result page
       navigate(`/analysis/${analysisId}`);
     } catch (err) {
       console.error('Submission failed:', err);
@@ -108,34 +127,35 @@ export const NewAnalysisPage = () => {
   };
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8 max-w-4xl mx-auto space-y-6">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 dark:border-slate-800 pb-4">
+    <div className="p-4 sm:p-6 lg:p-8 max-w-4xl mx-auto space-y-6 font-sans">
+      {/* Top Title and Viva Demo buttons */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 dark:border-slate-800 pb-3">
         <div>
-          <h1 className="text-xl font-bold text-slate-900 dark:text-white font-mono flex items-center gap-2">
-            <Terminal className="w-5 h-5 text-sky-500" />
-            new-incident / triage-form
+          <h1 className="text-xl font-bold text-slate-900 dark:text-white">
+            Log New Technical Incident
           </h1>
           <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-            Record incident symptoms and logs to generate a 5 Whys diagnostic report.
+            Fill in incident symptoms and logs to trigger the 5 Whys diagnostic engine.
           </p>
         </div>
 
-        {/* Demo Templates */}
+        {/* Demo templates for quick presentation */}
         <div className="flex items-center gap-2">
           <button
             type="button"
             onClick={loadExample502}
-            className="px-2.5 py-1.5 rounded text-xs font-mono bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition"
+            className="px-2.5 py-1.5 rounded-lg text-xs font-mono bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition"
+            title="Load 502 Bad Gateway sample data"
           >
-            Load 502 Template
+            Demo 502 Outage
           </button>
           <button
             type="button"
             onClick={loadExampleDb}
-            className="px-2.5 py-1.5 rounded text-xs font-mono bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition"
+            className="px-2.5 py-1.5 rounded-lg text-xs font-mono bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition"
+            title="Load Database Pool sample data"
           >
-            Load DB Pool Template
+            Demo DB Timeout
           </button>
         </div>
       </div>
@@ -147,8 +167,8 @@ export const NewAnalysisPage = () => {
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-5 text-xs">
-        {/* Section 1 */}
+      <form onSubmit={handleSubmit} className="space-y-4 text-xs">
+        {/* Section 1: Problem Definition */}
         <div className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 space-y-3 shadow-xs">
           <span className="font-mono text-[11px] font-bold text-slate-400 uppercase tracking-wider block">
             1. Problem Statement
@@ -213,16 +233,16 @@ export const NewAnalysisPage = () => {
               rows={3}
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              placeholder="Explain the incident symptoms, user impact, and failure timeline..."
+              placeholder="Describe symptoms, what broke, and affected services..."
               className="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-sky-500"
             />
           </div>
         </div>
 
-        {/* Section 2 */}
+        {/* Section 2: Technical Symptoms */}
         <div className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 space-y-3 shadow-xs">
           <span className="font-mono text-[11px] font-bold text-slate-400 uppercase tracking-wider block">
-            2. Logs & Diagnostics
+            2. Technical Symptoms &amp; Traces
           </span>
 
           <div>
@@ -280,7 +300,7 @@ export const NewAnalysisPage = () => {
           </div>
         </div>
 
-        {/* Section 3: Evidence File */}
+        {/* Section 3: Log Upload */}
         <div className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 space-y-2 shadow-xs">
           <span className="font-mono text-[11px] font-bold text-slate-400 uppercase tracking-wider block">
             3. Log File Evidence (Optional)
@@ -303,7 +323,7 @@ export const NewAnalysisPage = () => {
           </label>
         </div>
 
-        {/* Submit */}
+        {/* Action Buttons */}
         <div className="flex items-center justify-end gap-2 pt-2">
           <button
             type="button"
@@ -315,7 +335,7 @@ export const NewAnalysisPage = () => {
           <button
             type="submit"
             disabled={loading}
-            className="inline-flex items-center gap-1.5 px-5 py-2 rounded-lg font-semibold text-white bg-slate-900 hover:bg-slate-800 dark:bg-sky-600 dark:hover:bg-sky-500 transition shadow-sm disabled:opacity-50"
+            className="inline-flex items-center gap-1.5 px-5 py-2 rounded-lg font-semibold text-white bg-sky-600 hover:bg-sky-500 transition shadow-sm disabled:opacity-50"
           >
             {loading ? (
               <>
