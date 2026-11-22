@@ -1,0 +1,11 @@
+[2026-11-22T12:30:15.120Z] INFO [Server]: Server initialized on port 3000
+[2026-11-22T12:30:16.890Z] INFO [Database]: Connecting to replica set mongodb://10.0.4.12:27017/prod
+[2026-11-22T12:30:18.450Z] WARN [Config]: Deprecated configuration setting detected: poolSize -> use maxPoolSize
+[2026-11-22T12:30:25.801Z] ERROR [HttpServer]: 502 Bad Gateway - Upstream proxy failed to connect
+[2026-11-22T12:30:25.802Z] ERROR [Process]: Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1494:16)
+    at Protocol.handshake (/app/src/network/proxy.js:42:11)
+    at Layer.handle [as handle_request] (/app/node_modules/express/lib/router/layer.js:95:5)
+[2026-11-22T12:30:26.110Z] FATAL [Container]: Node runtime process exited with status code 1
+[2026-11-22T12:30:26.115Z] WARN [Kubelet]: Container app-backend failed liveness probe: HTTP probe failed with statuscode: 502
+[2026-11-22T12:30:28.000Z] ERROR [Ingress]: nginx [error] 42#42: *894 no live upstreams while connecting to upstream
