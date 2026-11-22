@@ -19,7 +19,7 @@ export const Sidebar = () => {
   ];
 
   return (
-    <aside className="w-60 border-r border-zinc-800 bg-zinc-950 min-h-[calc(100vh-3.5rem)] flex flex-col justify-between p-4 hidden md:flex text-xs">
+    <aside className="w-60 border-r border-zinc-800 bg-zinc-950 sticky top-14 h-[calc(100vh-3.5rem)] overflow-y-auto flex flex-col justify-between p-4 hidden md:flex text-xs shrink-0">
       <div className="space-y-6">
         <div>
           <div className="text-[11px] uppercase tracking-wider text-zinc-500 font-semibold px-2 mb-2">
@@ -31,7 +31,7 @@ export const Sidebar = () => {
                 key={item.to}
                 to={item.to}
                 className={({ isActive }) =>
-                  `flex items-center gap-2.5 px-3 py-2 rounded-lg transition-colors ${
+                  `flex items-center gap-2.5 px-3 py-2 rounded-lg ${
                     isActive
                       ? 'bg-zinc-900 text-emerald-400 font-medium border border-zinc-800'
                       : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900/50'

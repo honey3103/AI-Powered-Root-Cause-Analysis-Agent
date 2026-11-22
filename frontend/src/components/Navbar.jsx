@@ -24,7 +24,7 @@ export const Navbar = () => {
 
   return (
     <>
-      <header className="sticky top-0 z-40 w-full border-b border-zinc-800 bg-zinc-950/95 backdrop-blur-sm">
+      <header className="sticky top-0 z-40 w-full border-b border-zinc-800 bg-zinc-950">
         <div className="flex items-center justify-between h-14 px-4 sm:px-6 lg:px-8">
           {/* Brand & Project Name */}
           <div className="flex items-center gap-3">
@@ -42,7 +42,7 @@ export const Navbar = () => {
             {/* Human Project Progress Badge */}
             <button
               onClick={() => setShowStatusModal(true)}
-              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs bg-zinc-900 border border-zinc-800 hover:border-zinc-700 text-zinc-300 transition"
+              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs bg-zinc-900 border border-zinc-800 hover:border-zinc-700 text-zinc-300"
               title="Click to view development milestones"
             >
               <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
@@ -56,7 +56,7 @@ export const Navbar = () => {
             {user && (
               <Link
                 to="/new-analysis"
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg text-white bg-emerald-600 hover:bg-emerald-500 transition"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg text-white bg-emerald-600 hover:bg-emerald-500"
               >
                 <Plus className="w-3.5 h-3.5" />
                 <span>New Incident</span>
@@ -75,7 +75,7 @@ export const Navbar = () => {
                 </div>
                 <button
                   onClick={handleLogout}
-                  className="p-1.5 rounded-md text-zinc-400 hover:text-rose-400 hover:bg-zinc-900 transition"
+                  className="p-1.5 rounded-md text-zinc-400 hover:text-rose-400 hover:bg-zinc-900"
                   title="Sign out"
                 >
                   <LogOut className="w-4 h-4" />
@@ -85,13 +85,13 @@ export const Navbar = () => {
               <div className="flex items-center gap-2 text-xs">
                 <Link
                   to="/login"
-                  className="px-3 py-1.5 text-zinc-400 hover:text-white transition"
+                  className="px-3 py-1.5 text-zinc-400 hover:text-white"
                 >
                   Sign In
                 </Link>
                 <Link
                   to="/register"
-                  className="px-3 py-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-white font-medium border border-zinc-700 transition"
+                  className="px-3 py-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-white font-medium border border-zinc-700"
                 >
                   Register
                 </Link>

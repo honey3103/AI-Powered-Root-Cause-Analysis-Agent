@@ -15,7 +15,7 @@ export const RecommendationCard = ({ recommendations }) => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-3 font-mono text-xs">
       {/* 1. Immediate */}
-      <div className="p-4 rounded-xl border border-rose-500/30 bg-[#0d0d12] flex flex-col justify-between shadow-sm">
+      <div className="p-4 rounded-xl border border-rose-500/30 bg-[#0d0d12] flex flex-col justify-between">
         <div>
           <div className="flex items-center gap-2 text-rose-400 font-bold text-xs uppercase tracking-wider mb-1.5">
             <Zap className="w-4 h-4 text-rose-500" /> Immediate Actions (0-2h)
@@ -31,10 +31,10 @@ export const RecommendationCard = ({ recommendations }) => {
                 <li
                   key={idx}
                   onClick={() => toggleCheck(key)}
-                  className={`cursor-pointer flex items-start gap-2 p-2 rounded-lg text-xs transition border ${
+                  className={`cursor-pointer flex items-start gap-2 p-2 rounded-lg text-xs border ${
                     isDone
                       ? 'bg-zinc-900/50 border-zinc-800 text-zinc-500 line-through'
-                      : 'bg-[#121217] border-zinc-800 text-zinc-200 hover:border-zinc-700'
+                      : 'bg-[#121217] border-zinc-800 text-zinc-200'
                   }`}
                 >
                   {isDone ? (
@@ -51,7 +51,7 @@ export const RecommendationCard = ({ recommendations }) => {
       </div>
 
       {/* 2. Short Term */}
-      <div className="p-4 rounded-xl border border-amber-500/30 bg-[#0d0d12] flex flex-col justify-between shadow-sm">
+      <div className="p-4 rounded-xl border border-amber-500/30 bg-[#0d0d12] flex flex-col justify-between">
         <div>
           <div className="flex items-center gap-2 text-amber-400 font-bold text-xs uppercase tracking-wider mb-1.5">
             <Clock className="w-4 h-4 text-amber-500" /> Short-Term Hardening (1-3d)
@@ -67,10 +67,10 @@ export const RecommendationCard = ({ recommendations }) => {
                 <li
                   key={idx}
                   onClick={() => toggleCheck(key)}
-                  className={`cursor-pointer flex items-start gap-2 p-2 rounded-lg text-xs transition border ${
+                  className={`cursor-pointer flex items-start gap-2 p-2 rounded-lg text-xs border ${
                     isDone
                       ? 'bg-zinc-900/50 border-zinc-800 text-zinc-500 line-through'
-                      : 'bg-[#121217] border-zinc-800 text-zinc-200 hover:border-zinc-700'
+                      : 'bg-[#121217] border-zinc-800 text-zinc-200'
                   }`}
                 >
                   {isDone ? (
@@ -87,7 +87,7 @@ export const RecommendationCard = ({ recommendations }) => {
       </div>
 
       {/* 3. Long Term */}
-      <div className="p-4 rounded-xl border border-emerald-500/30 bg-[#0d0d12] flex flex-col justify-between shadow-sm">
+      <div className="p-4 rounded-xl border border-emerald-500/30 bg-[#0d0d12] flex flex-col justify-between">
         <div>
           <div className="flex items-center gap-2 text-emerald-400 font-bold text-xs uppercase tracking-wider mb-1.5">
             <ShieldCheck className="w-4 h-4 text-emerald-400" /> Long-Term Prevention
@@ -103,10 +103,10 @@ export const RecommendationCard = ({ recommendations }) => {
                 <li
                   key={idx}
                   onClick={() => toggleCheck(key)}
-                  className={`cursor-pointer flex items-start gap-2 p-2 rounded-lg text-xs transition border ${
+                  className={`cursor-pointer flex items-start gap-2 p-2 rounded-lg text-xs border ${
                     isDone
                       ? 'bg-zinc-900/50 border-zinc-800 text-zinc-500 line-through'
-                      : 'bg-[#121217] border-zinc-800 text-zinc-200 hover:border-zinc-700'
+                      : 'bg-[#121217] border-zinc-800 text-zinc-200'
                   }`}
                 >
                   {isDone ? (

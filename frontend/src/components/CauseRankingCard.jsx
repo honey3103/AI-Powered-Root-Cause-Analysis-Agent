@@ -15,22 +15,22 @@ export const CauseRankingCard = ({ possibleCauses }) => {
       {possibleCauses.map((cause, idx) => {
         let barColor = 'bg-emerald-400';
         let textColor = 'text-emerald-400';
-        let borderColor = 'border-zinc-800 hover:border-zinc-700';
+        let borderColor = 'border-zinc-800';
 
         if (cause.confidence >= 80) {
           barColor = 'bg-rose-500';
           textColor = 'text-rose-400';
-          borderColor = 'border-rose-500/30 bg-rose-950/10 hover:border-rose-500/50';
+          borderColor = 'border-rose-500/30 bg-rose-950/10';
         } else if (cause.confidence >= 60) {
           barColor = 'bg-amber-400';
           textColor = 'text-amber-400';
-          borderColor = 'border-amber-500/20 bg-amber-950/5 hover:border-amber-500/40';
+          borderColor = 'border-amber-500/20 bg-amber-950/5';
         }
 
         return (
           <div
             key={idx}
-            className={`p-4 rounded-xl border ${borderColor} bg-[#0d0d12] transition duration-200 shadow-sm`}
+            className={`p-4 rounded-xl border ${borderColor} bg-[#0d0d12]`}
           >
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
               <div className="flex items-center gap-2">
@@ -48,10 +48,10 @@ export const CauseRankingCard = ({ possibleCauses }) => {
               </div>
             </div>
 
-            {/* Glowing Progress bar */}
+            {/* Solid Progress bar without animation */}
             <div className="w-full bg-zinc-900 h-1.5 rounded-full overflow-hidden mb-3 border border-zinc-800">
               <div
-                className={`h-full ${barColor} transition-all duration-500 rounded-full`}
+                className={`h-full ${barColor} rounded-full`}
                 style={{ width: `${cause.confidence}%` }}
               ></div>
             </div>

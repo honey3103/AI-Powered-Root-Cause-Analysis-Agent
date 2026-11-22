@@ -25,10 +25,10 @@ export const FiveWhysAccordion = ({ fiveWhys, finalRootCause }) => {
               )}
 
               <div
-                className={`relative z-10 rounded-xl border transition-all ${
+                className={`relative z-10 rounded-xl border ${
                   isOpen
-                    ? 'border-emerald-500/40 bg-[#0f0f16] shadow-[0_0_15px_rgba(16,185,129,0.08)]'
-                    : 'border-zinc-800 bg-[#0d0d12] hover:border-zinc-700'
+                    ? 'border-emerald-500/40 bg-[#0f0f16]'
+                    : 'border-zinc-800 bg-[#0d0d12]'
                 }`}
               >
                 <button
@@ -80,12 +80,12 @@ export const FiveWhysAccordion = ({ fiveWhys, finalRootCause }) => {
         })}
       </div>
 
-      {/* Coroot AI Primary Root Cause Highlight Card */}
+      {/* Primary Root Cause Highlight Card */}
       {finalRootCause && (
-        <div className="mt-4 p-4 rounded-xl border border-emerald-500/40 bg-emerald-950/20 shadow-[0_0_20px_rgba(16,185,129,0.12)] space-y-1.5">
+        <div className="mt-4 p-4 rounded-xl border border-emerald-500/40 bg-emerald-950/20 space-y-1.5">
           <div className="flex items-center gap-2 text-emerald-400 font-bold text-xs uppercase tracking-wider">
             <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-            Coroot Root Cause Pinpointed (via 5 Whys Deduction)
+            Primary Root Cause Pinpointed (via 5 Whys Deduction)
           </div>
           <p className="text-xs sm:text-sm font-sans font-semibold text-zinc-100 pl-6 leading-relaxed">
             {finalRootCause}
