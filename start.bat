@@ -1,20 +1,24 @@
 @echo off
 echo ========================================================
-echo Starting AI Root Cause Analysis Agent (RCA Agent)...
+echo Starting Coroot AI - Root Cause Analysis Agent
 echo ========================================================
+echo.
 
-echo Starting Backend Server on http://localhost:5000...
-start "RCA Backend" cmd /k "cd /d %~dp0backend && npm start"
+echo [1/2] Launching Backend Server (Port 5000)...
+start "Coroot AI - Backend Server" cmd /k "cd /d %~dp0backend && npm.cmd start"
 
 timeout /t 2 /nobreak >nul
 
-echo Starting Frontend on http://localhost:5173...
-start "RCA Frontend" cmd /k "cd /d %~dp0frontend && npm run dev"
+echo [2/2] Launching Frontend Console (Port 5173)...
+start "Coroot AI - Frontend Console" cmd /k "cd /d %~dp0frontend && npm.cmd run dev"
 
 echo.
-echo RCA Agent is now launching!
-echo Backend:  http://localhost:5000
-echo Frontend: http://localhost:5173
+echo ========================================================
+echo Services are now launching in separate windows:
+echo - Frontend:  http://localhost:5173
+echo - Backend:   http://localhost:5000
+echo - Demo User: harsh@test.com / password123
+echo ========================================================
 echo.
-echo Press any key to exit this launcher window...
-pause >nul
+echo You can close this launcher window at any time.
+pause
