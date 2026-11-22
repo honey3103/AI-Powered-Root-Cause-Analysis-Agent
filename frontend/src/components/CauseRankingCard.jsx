@@ -1,40 +1,43 @@
 import React from 'react';
-import { AlertTriangle, CheckCircle, XCircle } from 'lucide-react';
+import { AlertCircle, CheckCircle2, XCircle } from 'lucide-react';
 
 export const CauseRankingCard = ({ possibleCauses }) => {
   if (!possibleCauses || possibleCauses.length === 0) {
     return (
-      <div className="p-4 rounded-xl bg-slate-100 dark:bg-slate-800 text-sm text-slate-500">
+      <div className="p-4 rounded-xl border border-zinc-800 bg-[#0d0d12] text-xs font-mono text-zinc-400">
         No possible causes identified yet.
       </div>
     );
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-3 font-mono">
       {possibleCauses.map((cause, idx) => {
-        // Color coding based on confidence
-        let barColor = 'bg-sky-500';
-        let textColor = 'text-sky-600 dark:text-sky-400';
+        let barColor = 'bg-emerald-400';
+        let textColor = 'text-emerald-400';
+        let borderColor = 'border-zinc-800 hover:border-zinc-700';
+
         if (cause.confidence >= 80) {
           barColor = 'bg-rose-500';
-          textColor = 'text-rose-600 dark:text-rose-400';
+          textColor = 'text-rose-400';
+          borderColor = 'border-rose-500/30 bg-rose-950/10 hover:border-rose-500/50';
         } else if (cause.confidence >= 60) {
-          barColor = 'bg-amber-500';
-          textColor = 'text-amber-600 dark:text-amber-400';
+          barColor = 'bg-amber-400';
+          textColor = 'text-amber-400';
+          borderColor = 'border-amber-500/20 bg-amber-950/5 hover:border-amber-500/40';
         }
 
         return (
           <div
             key={idx}
-            className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm transition hover:shadow-md"
+            className={`p-4 rounded-xl border ${borderColor} bg-[#0d0d12] transition duration-200 shadow-sm`}
           >
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
-              <div className="flex items-center gap-2.5">
-                <span className="w-6 h-6 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold text-xs flex items-center justify-center">
+              <div className="flex items-center gap-2">
+                <span className="w-5 h-5 rounded bg-zinc-900 border border-zinc-800 text-zinc-400 font-bold text-[10px] flex items-center justify-center">
                   #{idx + 1}
                 </span>
-                <h4 className="font-semibold text-slate-900 dark:text-slate-100 text-sm">
+                <h4 className="font-bold text-zinc-100 text-xs sm:text-sm">
                   {cause.cause}
                 </h4>
               </div>
@@ -45,8 +48,8 @@ export const CauseRankingCard = ({ possibleCauses }) => {
               </div>
             </div>
 
-            {/* Progress bar */}
-            <div className="w-full bg-slate-100 dark:bg-slate-800 h-1.5 rounded-full overflow-hidden mb-3">
+            {/* Glowing Progress bar */}
+            <div className="w-full bg-zinc-900 h-1.5 rounded-full overflow-hidden mb-3 border border-zinc-800">
               <div
                 className={`h-full ${barColor} transition-all duration-500 rounded-full`}
                 style={{ width: `${cause.confidence}%` }}
@@ -54,18 +57,18 @@ export const CauseRankingCard = ({ possibleCauses }) => {
             </div>
 
             {/* Cause description */}
-            <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed mb-3">
+            <p className="text-xs text-zinc-300 leading-relaxed font-sans mb-3">
               {cause.description}
             </p>
 
             {/* Supporting & Contradicting Evidence */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px] pt-2 border-t border-slate-100 dark:border-slate-800/80">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px] pt-2 border-t border-zinc-800/80">
               {cause.supportingEvidence && cause.supportingEvidence.length > 0 && (
                 <div className="space-y-1">
-                  <span className="font-semibold text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
-                    <CheckCircle className="w-3 h-3" /> Supporting Evidence:
+                  <span className="font-semibold text-emerald-400 flex items-center gap-1 text-[10px]">
+                    <CheckCircle2 className="w-3 h-3" /> SUPPORTING EVIDENCE:
                   </span>
-                  <ul className="list-disc list-inside text-slate-600 dark:text-slate-400 space-y-0.5">
+                  <ul className="list-disc list-inside text-zinc-400 space-y-0.5 text-[10px]">
                     {cause.supportingEvidence.map((s, sIdx) => (
                       <li key={sIdx} className="truncate">{s}</li>
                     ))}
@@ -75,10 +78,10 @@ export const CauseRankingCard = ({ possibleCauses }) => {
 
               {cause.contradictingEvidence && cause.contradictingEvidence.length > 0 && (
                 <div className="space-y-1">
-                  <span className="font-semibold text-rose-600 dark:text-rose-400 flex items-center gap-1">
-                    <XCircle className="w-3 h-3" /> Alternative / Contradicting:
+                  <span className="font-semibold text-rose-400 flex items-center gap-1 text-[10px]">
+                    <XCircle className="w-3 h-3" /> CONTRADICTING / ALTERNATIVE:
                   </span>
-                  <ul className="list-disc list-inside text-slate-600 dark:text-slate-400 space-y-0.5">
+                  <ul className="list-disc list-inside text-zinc-400 space-y-0.5 text-[10px]">
                     {cause.contradictingEvidence.map((c, cIdx) => (
                       <li key={cIdx} className="truncate">{c}</li>
                     ))}

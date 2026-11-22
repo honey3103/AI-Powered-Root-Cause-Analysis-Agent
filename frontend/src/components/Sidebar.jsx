@@ -1,10 +1,3 @@
-/**
- * Project: AI-Powered Root Cause Analysis Agent
- * Student: Harsh (CSE)
- * File: Sidebar.jsx
- * Description: Left sidebar navigation with quick links to Dashboard, New Incident, and History.
- */
-
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { 
@@ -12,26 +5,27 @@ import {
   PlusCircle, 
   History, 
   Settings, 
-  BookOpen,
-  CheckCircle,
-  Clock
+  Activity,
+  Cpu,
+  Layers,
+  ShieldCheck,
+  Terminal
 } from 'lucide-react';
 
 export const Sidebar = () => {
-  // navigation items array
   const navItems = [
-    { label: 'Dashboard', to: '/dashboard', icon: LayoutDashboard },
+    { label: 'Incidents Console', to: '/dashboard', icon: LayoutDashboard },
     { label: 'New Investigation', to: '/new-analysis', icon: PlusCircle },
-    { label: 'Analysis History', to: '/history', icon: History },
-    { label: 'Project Settings', to: '/settings', icon: Settings },
+    { label: 'Investigation History', to: '/history', icon: History },
+    { label: 'Agent Configuration', to: '/settings', icon: Settings },
   ];
 
   return (
-    <aside className="w-64 border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 min-h-[calc(100vh-3.5rem)] flex flex-col justify-between p-4 hidden md:flex text-xs">
+    <aside className="w-64 border-r border-[#1f1f28] bg-[#07070a] min-h-[calc(100vh-3.5rem)] flex flex-col justify-between p-4 hidden md:flex font-mono text-xs">
       <div className="space-y-6">
         <div>
-          <div className="text-[11px] font-mono uppercase tracking-wider text-slate-400 font-bold px-3 mb-2">
-            Navigation
+          <div className="text-[10px] uppercase tracking-wider text-zinc-500 font-bold px-3 mb-2">
+            Investigation Workspaces
           </div>
           <nav className="space-y-1">
             {navItems.map((item) => (
@@ -39,45 +33,58 @@ export const Sidebar = () => {
                 key={item.to}
                 to={item.to}
                 className={({ isActive }) =>
-                  `flex items-center gap-3 px-3 py-2 rounded-xl font-medium transition-all ${
+                  `flex items-center gap-2.5 px-3 py-2 rounded-lg font-medium transition-all ${
                     isActive
-                      ? 'bg-sky-50 dark:bg-sky-950/60 text-sky-600 dark:text-sky-400 font-semibold'
-                      : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-800'
+                      ? 'bg-zinc-900 text-emerald-400 border border-zinc-800 shadow-[0_0_12px_rgba(16,185,129,0.15)] font-semibold'
+                      : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900/50'
                   }`
                 }
               >
                 <item.icon className="w-4 h-4" />
-                {item.label}
+                <span>{item.label}</span>
               </NavLink>
             ))}
           </nav>
         </div>
 
-        {/* Student Project Status Card */}
-        <div className="p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-850 space-y-2">
-          <div className="flex items-center justify-between font-mono font-semibold text-slate-800 dark:text-slate-200">
+        {/* Coroot AI Telemetry Diagnostics Widget */}
+        <div className="p-3.5 rounded-xl border border-zinc-800 bg-[#0d0d12] space-y-2.5">
+          <div className="flex items-center justify-between text-[11px] font-bold text-zinc-300">
             <span className="flex items-center gap-1.5">
-              <BookOpen className="w-3.5 h-3.5 text-sky-500" />
-              Project Modules
+              <Activity className="w-3.5 h-3.5 text-emerald-400" />
+              RCA Pipeline Status
             </span>
-            <span className="text-amber-600 dark:text-amber-400">76%</span>
+            <span className="text-emerald-400">76%</span>
           </div>
 
-          {/* Simple progress bar */}
-          <div className="w-full bg-slate-200 dark:bg-slate-700 h-1.5 rounded-full overflow-hidden">
-            <div className="bg-amber-500 h-full rounded-full" style={{ width: '76%' }}></div>
+          <div className="w-full bg-zinc-900 h-1.5 rounded-full overflow-hidden border border-zinc-800">
+            <div className="bg-emerald-400 h-full rounded-full" style={{ width: '76%' }}></div>
           </div>
 
-          <p className="text-[10px] text-slate-500 dark:text-slate-400 leading-tight">
-            Auth, Five Whys &amp; Log parsing implemented. Final report export formatting in progress.
-          </p>
+          <div className="space-y-1 text-[10px] text-zinc-400">
+            <div className="flex justify-between">
+              <span>Reasoning Engine:</span>
+              <span className="text-zinc-200">Heuristic + LLM</span>
+            </div>
+            <div className="flex justify-between">
+              <span>Log Parser:</span>
+              <span className="text-emerald-400">Active</span>
+            </div>
+            <div className="flex justify-between">
+              <span>Avg Latency to RCA:</span>
+              <span className="text-zinc-200">&lt; 1.4s</span>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Footer info */}
-      <div className="pt-3 border-t border-slate-200 dark:border-slate-800 text-[10px] font-mono text-slate-400 flex items-center justify-between">
-        <span>Dev Build: v0.8.2</span>
-        <span className="text-emerald-500">API: Connected</span>
+      {/* Footer Info */}
+      <div className="pt-3 border-t border-zinc-800 text-[10px] text-zinc-500 flex items-center justify-between">
+        <span className="flex items-center gap-1.5">
+          <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
+          Cluster: Localhost
+        </span>
+        <span>Harsh (CSE)</span>
       </div>
     </aside>
   );

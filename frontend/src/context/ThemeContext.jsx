@@ -1,24 +1,20 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect } from 'react';
 
 const ThemeContext = createContext();
 
 export const ThemeProvider = ({ children }) => {
-  const [theme, setTheme] = useState(() => {
-    return localStorage.getItem('rca_theme') || 'dark';
-  });
+  // Lock theme permanently to dark (static black Coroot aesthetic)
+  const theme = 'dark';
 
   useEffect(() => {
     const root = window.document.documentElement;
-    if (theme === 'dark') {
-      root.classList.add('dark');
-    } else {
-      root.classList.remove('dark');
-    }
-    localStorage.setItem('rca_theme', theme);
-  }, [theme]);
+    root.classList.add('dark');
+    root.style.colorScheme = 'dark';
+    localStorage.setItem('rca_theme', 'dark');
+  }, []);
 
   const toggleTheme = () => {
-    setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
+    // Static dark theme - no-op or inform user
   };
 
   return (

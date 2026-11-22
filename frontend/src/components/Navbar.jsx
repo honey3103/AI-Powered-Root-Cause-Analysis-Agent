@@ -1,126 +1,100 @@
-/**
- * Project: AI-Powered Root Cause Analysis Agent
- * Student: Harsh
- * Department: Computer Science & Engineering
- * Semester: Mini Project Submission (2026)
- * File: Navbar.jsx
- * Description: Top navigation bar with project title, theme toggle, and user profile.
- */
-
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { useTheme } from '../context/ThemeContext';
 import { 
-  Sun, 
-  Moon, 
   LogOut, 
-  PlusCircle, 
-  CheckCircle, 
-  Clock, 
-  X,
-  FileCode2,
-  GraduationCap
+  Plus, 
+  CheckCircle2, 
+  Terminal,
+  Activity,
+  Cpu,
+  Layers,
+  X
 } from 'lucide-react';
 
 export const Navbar = () => {
-  // auth and theme hooks
   const { user, logout } = useAuth();
-  const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
-
-  // state to toggle project details modal
-  const [showProjectInfo, setShowProjectInfo] = useState(false);
+  const [showStatusModal, setShowStatusModal] = useState(false);
 
   const handleLogout = () => {
-    // remove token and go to login page
     logout();
     navigate('/login');
   };
 
   return (
     <>
-      <header className="sticky top-0 z-40 w-full border-b border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm">
+      <header className="sticky top-0 z-40 w-full border-b border-[#1f1f28] bg-[#07070a]/90 backdrop-blur-md">
         <div className="flex items-center justify-between h-14 px-4 sm:px-6 lg:px-8">
-          {/* Left: Project title & Student Badge */}
-          <div className="flex items-center gap-3">
-            <Link to={user ? "/dashboard" : "/"} className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-sky-600 text-white flex items-center justify-center font-bold text-xs shadow-xs">
-                RCA
+          {/* Brand & Coroot Mark */}
+          <div className="flex items-center gap-4">
+            <Link to={user ? "/dashboard" : "/"} className="flex items-center gap-2.5 group">
+              <div className="w-7 h-7 rounded-md bg-emerald-500 text-black font-mono font-black text-xs flex items-center justify-center shadow-[0_0_12px_rgba(16,185,129,0.4)] group-hover:scale-105 transition-transform">
+                CR
               </div>
-              <div>
-                <span className="font-bold text-sm tracking-tight text-slate-900 dark:text-slate-100 block leading-tight">
-                  Root Cause Analyser
+              <div className="flex items-center gap-2">
+                <span className="font-mono font-bold text-sm tracking-tight text-white">
+                  coroot<span className="text-emerald-400">/ai-rca</span>
                 </span>
-                <span className="text-[10px] text-slate-500 font-mono block leading-tight">
-                  Student Project • Harsh (CSE)
+                <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-zinc-900 border border-zinc-800 text-zinc-400">
+                  v0.8.2
                 </span>
               </div>
             </Link>
 
-            {/* Project progress button */}
+            {/* Live Telemetry Pill */}
             <button
-              type="button"
-              onClick={() => setShowProjectInfo(true)}
-              className="hidden sm:inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[11px] font-mono bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-400 border border-amber-300 dark:border-amber-800 hover:bg-amber-100 transition"
-              title="Click to view Project Submission & Module Details"
+              onClick={() => setShowStatusModal(true)}
+              className="hidden md:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-mono bg-zinc-900/80 border border-zinc-800/80 hover:border-zinc-700 text-zinc-300 transition"
             >
-              <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>
-              Milestone: 76% Completed
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span>AGENT: ACTIVE</span>
+              <span className="text-zinc-500">•</span>
+              <span className="text-emerald-400 font-semibold">76% Implemented</span>
             </button>
           </div>
 
-          {/* Right: Actions and User */}
-          <div className="flex items-center gap-2 sm:gap-3">
+          {/* Right Action Controls */}
+          <div className="flex items-center gap-2.5">
             {user && (
               <Link
                 to="/new-analysis"
-                className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg text-white bg-sky-600 hover:bg-sky-500 transition shadow-xs"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-md text-black bg-emerald-400 hover:bg-emerald-300 transition shadow-[0_0_15px_rgba(16,185,129,0.25)]"
               >
-                <PlusCircle className="w-3.5 h-3.5" />
-                New Investigation
+                <Plus className="w-3.5 h-3.5 stroke-[3]" />
+                <span>New Incident</span>
               </Link>
             )}
 
-            {/* Dark / Light Mode Toggle */}
-            <button
-              onClick={toggleTheme}
-              className="p-1.5 rounded-lg text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition"
-              title="Toggle Theme"
-            >
-              {theme === 'dark' ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-slate-600" />}
-            </button>
-
-            {/* User Profile or Login */}
             {user ? (
-              <div className="flex items-center gap-2 pl-2 border-l border-slate-200 dark:border-slate-800">
-                <div className="hidden md:flex flex-col text-right">
-                  <span className="text-xs font-semibold text-slate-800 dark:text-slate-200 leading-tight">
+              <div className="flex items-center gap-2 pl-3 border-l border-zinc-800">
+                <div className="hidden sm:flex flex-col text-right font-mono">
+                  <span className="text-xs font-semibold text-zinc-200 leading-tight">
                     {user.name}
                   </span>
-                  <span className="text-[10px] text-slate-400 font-mono leading-tight">
+                  <span className="text-[10px] text-zinc-500 leading-tight">
                     {user.email}
                   </span>
                 </div>
                 <button
                   onClick={handleLogout}
-                  className="p-1.5 rounded-lg text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/30 transition"
-                  title="Logout"
+                  className="p-1.5 rounded-md text-zinc-400 hover:text-rose-400 hover:bg-zinc-900 transition"
+                  title="Sign out"
                 >
                   <LogOut className="w-4 h-4" />
                 </button>
               </div>
             ) : (
-              <div className="flex items-center gap-2 text-xs">
+              <div className="flex items-center gap-2 text-xs font-mono">
                 <Link
                   to="/login"
-                  className="px-2.5 py-1 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white font-medium"
+                  className="px-3 py-1.5 text-zinc-400 hover:text-white transition"
                 >
-                  Login
+                  Sign in
                 </Link>
                 <Link
                   to="/register"
-                  className="px-3 py-1.5 rounded-lg text-white bg-sky-600 hover:bg-sky-500 font-medium transition"
+                  className="px-3 py-1.5 rounded-md bg-zinc-800 hover:bg-zinc-700 text-white font-medium border border-zinc-700 transition"
                 >
                   Register
                 </Link>
@@ -130,90 +104,74 @@ export const Navbar = () => {
         </div>
       </header>
 
-      {/* Student Project Details Modal */}
-      {showProjectInfo && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs">
-          <div className="w-full max-w-lg rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-2xl p-6 space-y-4">
-            <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
+      {/* Coroot Telemetry & Status Modal */}
+      {showStatusModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+          <div className="w-full max-w-lg rounded-xl border border-zinc-800 bg-[#0c0c11] shadow-2xl p-6 space-y-4 font-mono text-xs">
+            <div className="flex items-center justify-between border-b border-zinc-800 pb-3">
               <div className="flex items-center gap-2">
-                <GraduationCap className="w-5 h-5 text-sky-600 dark:text-sky-400" />
-                <div>
-                  <h3 className="text-sm font-bold text-slate-900 dark:text-white">
-                    College Mini Project: Root Cause Analysis Agent
-                  </h3>
-                  <p className="text-[11px] text-slate-500 dark:text-slate-400">
-                    Student: Harsh • B.Tech Computer Science &amp; Engineering
-                  </p>
-                </div>
+                <div className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></div>
+                <h3 className="font-bold text-sm text-white">
+                  Coroot AI RCA Agent • Engine Status
+                </h3>
               </div>
               <button
-                onClick={() => setShowProjectInfo(false)}
-                className="p-1 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
+                onClick={() => setShowStatusModal(false)}
+                className="text-zinc-400 hover:text-white"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
 
-            {/* Overall Progress Meter */}
-            <div className="space-y-1.5">
-              <div className="flex justify-between text-xs font-mono">
-                <span className="text-slate-600 dark:text-slate-300 font-semibold">Total Project Implementation</span>
-                <span className="text-amber-600 dark:text-amber-400 font-bold">76% Complete</span>
+            <div className="space-y-1.5 text-zinc-300">
+              <div className="flex justify-between text-[11px]">
+                <span className="text-zinc-500">ENGINE PIPELINE COMPLETION</span>
+                <span className="text-emerald-400 font-bold">76%</span>
               </div>
-              <div className="w-full bg-slate-100 dark:bg-slate-800 h-2.5 rounded-full overflow-hidden">
-                <div className="bg-amber-500 h-full rounded-full transition-all duration-300" style={{ width: '76%' }}></div>
-              </div>
-            </div>
-
-            {/* Modules implemented by student */}
-            <div className="space-y-2 text-xs pt-1">
-              <div className="p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800/60 flex items-center justify-between">
-                <span className="flex items-center gap-2 text-slate-700 dark:text-slate-200">
-                  <CheckCircle className="w-3.5 h-3.5 text-emerald-500" />
-                  Module 1: User Authentication &amp; JWT Protected Routes
-                </span>
-                <span className="font-mono text-emerald-600 font-bold">Done</span>
-              </div>
-
-              <div className="p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800/60 flex items-center justify-between">
-                <span className="flex items-center gap-2 text-slate-700 dark:text-slate-200">
-                  <CheckCircle className="w-3.5 h-3.5 text-emerald-500" />
-                  Module 2: Five Whys Problem-Solving Engine
-                </span>
-                <span className="font-mono text-emerald-600 font-bold">Done</span>
-              </div>
-
-              <div className="p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800/60 flex items-center justify-between">
-                <span className="flex items-center gap-2 text-slate-700 dark:text-slate-200">
-                  <CheckCircle className="w-3.5 h-3.5 text-emerald-500" />
-                  Module 3: Log &amp; PDF Evidence Extractor (Multer + Regex)
-                </span>
-                <span className="font-mono text-emerald-600 font-bold">Done</span>
-              </div>
-
-              <div className="p-2.5 rounded-lg bg-amber-50/50 dark:bg-amber-950/30 border border-amber-500/30 flex items-center justify-between">
-                <span className="flex items-center gap-2 text-amber-800 dark:text-amber-300">
-                  <Clock className="w-3.5 h-3.5 text-amber-500" />
-                  Module 4: PDF Report Generator &amp; Printable Audit Sheet
-                </span>
-                <span className="font-mono text-amber-600 font-bold">75% (WIP)</span>
-              </div>
-
-              <div className="p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800/30 flex items-center justify-between text-slate-400">
-                <span className="flex items-center gap-2">
-                  <FileCode2 className="w-3.5 h-3.5 text-slate-400" />
-                  Module 5: GitHub Webhooks &amp; Slack Alerts (Future Scope)
-                </span>
-                <span className="font-mono text-slate-400">15% (Planned)</span>
+              <div className="w-full bg-zinc-900 h-2 rounded-full overflow-hidden border border-zinc-800">
+                <div className="bg-emerald-400 h-full rounded-full" style={{ width: '76%' }}></div>
               </div>
             </div>
 
-            <div className="pt-2 text-[11px] text-slate-500 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center font-mono">
-              <span>Stack: MERN + Heuristic Engine</span>
+            <div className="space-y-2 pt-2 text-[11px]">
+              <div className="p-2.5 rounded bg-zinc-900/70 border border-zinc-800/80 flex items-center justify-between">
+                <span className="text-zinc-300 flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                  Incident Intake &amp; Symptom Correlator
+                </span>
+                <span className="text-emerald-400 font-bold">OPERATIONAL</span>
+              </div>
+
+              <div className="p-2.5 rounded bg-zinc-900/70 border border-zinc-800/80 flex items-center justify-between">
+                <span className="text-zinc-300 flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                  Five Whys Deductive Diagnostic Engine
+                </span>
+                <span className="text-emerald-400 font-bold">OPERATIONAL</span>
+              </div>
+
+              <div className="p-2.5 rounded bg-zinc-900/70 border border-zinc-800/80 flex items-center justify-between">
+                <span className="text-zinc-300 flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                  Multi-Format Log Extractor (TXT, LOG, CSV, PDF)
+                </span>
+                <span className="text-emerald-400 font-bold">90% READY</span>
+              </div>
+
+              <div className="p-2.5 rounded bg-zinc-900/70 border border-amber-500/30 flex items-center justify-between">
+                <span className="text-amber-300 flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+                  PDF Post-Mortem Audit Generator
+                </span>
+                <span className="text-amber-400 font-bold">75% (IN PROGRESS)</span>
+              </div>
+            </div>
+
+            <div className="pt-2 text-[10px] text-zinc-500 border-t border-zinc-800 flex justify-between items-center">
+              <span>Investigator: Harsh • Architecture: Full-Stack MERN + eBPF Logic</span>
               <button
-                type="button"
-                onClick={() => setShowProjectInfo(false)}
-                className="px-3 py-1 rounded bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-medium text-xs"
+                onClick={() => setShowStatusModal(false)}
+                className="px-2.5 py-1 rounded bg-zinc-800 text-zinc-200 hover:bg-zinc-700"
               >
                 Close
               </button>

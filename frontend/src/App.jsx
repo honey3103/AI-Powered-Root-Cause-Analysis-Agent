@@ -1,9 +1,8 @@
 /**
  * Project: AI-Powered Root Cause Analysis Agent
- * Student: Harsh
- * Department: Computer Science & Engineering
+ * Author: Harsh (CSE)
  * File: App.jsx
- * Description: Main React routing setup. Protected routes require login token.
+ * Description: Main React routing setup with Coroot AI static black theme.
  */
 
 import React from 'react';
@@ -29,11 +28,14 @@ import { SettingsPage } from './pages/SettingsPage';
 const ProtectedRoute = ({ children }) => {
   const { user, loading } = useAuth();
 
-  // show simple spinner while checking localstorage auth token
+  // show Coroot style spinner while checking localstorage auth token
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-900 text-white">
-        <div className="w-8 h-8 border-3 border-sky-500 border-t-transparent rounded-full animate-spin"></div>
+      <div className="min-h-screen flex items-center justify-center bg-[#050507] text-white font-mono">
+        <div className="flex flex-col items-center gap-2">
+          <div className="w-7 h-7 border-2 border-zinc-800 border-t-emerald-400 rounded-full animate-spin"></div>
+          <span className="text-xs text-zinc-500">Checking auth token...</span>
+        </div>
       </div>
     );
   }
@@ -47,7 +49,7 @@ const ProtectedRoute = ({ children }) => {
   return (
     <div className="flex">
       <Sidebar />
-      <main className="flex-1 overflow-x-hidden min-h-[calc(100vh-3.5rem)]">
+      <main className="flex-1 overflow-x-hidden min-h-[calc(100vh-3.5rem)] bg-[#050507]">
         {children}
       </main>
     </div>
@@ -59,7 +61,7 @@ export default function App() {
     <ThemeProvider>
       <AuthProvider>
         <BrowserRouter>
-          <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex flex-col font-sans transition-colors duration-150">
+          <div className="min-h-screen bg-[#050507] text-[#e4e4e7] flex flex-col font-sans selection:bg-emerald-500/20">
             {/* Top Navigation */}
             <Navbar />
 
