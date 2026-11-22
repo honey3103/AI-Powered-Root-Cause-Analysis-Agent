@@ -3,178 +3,230 @@ import { Link } from 'react-router-dom';
 import { 
   ArrowRight, 
   CheckCircle2, 
-  Terminal, 
-  Activity, 
-  Layers, 
-  FileCode2, 
-  Zap, 
-  ShieldAlert, 
+  FileText, 
   Server, 
   Cpu, 
   FileSearch,
-  Sparkles
+  Activity,
+  Layers,
+  Terminal,
+  Clock,
+  AlertTriangle
 } from 'lucide-react';
 
 export const LandingPage = () => {
   return (
-    <div className="relative min-h-[calc(100vh-3.5rem)] overflow-hidden bg-[#050507] text-zinc-100 font-sans selection:bg-emerald-500/20">
-      {/* Coroot Subtle Grid Background & Radial Glow */}
-      <div className="absolute inset-0 coroot-grid pointer-events-none opacity-40"></div>
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-5xl h-[450px] coroot-glow pointer-events-none"></div>
-
-      <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-20 space-y-16">
+    <div className="min-h-[calc(100vh-3.5rem)] bg-[#09090b] text-zinc-100 font-sans">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
+        
         {/* Top Hero Section */}
-        <div className="text-center space-y-6 max-w-3xl mx-auto">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-900 border border-zinc-800 text-[11px] font-mono text-zinc-300">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-            <span>COROOT-STYLE AI INCIDENT AGENT • ZERO NOISE</span>
+        <div className="text-center space-y-4 max-w-3xl mx-auto">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-900 border border-zinc-800 text-xs text-zinc-300">
+            <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
+            <span>B.Tech Final Year Project • Computer Science &amp; Engineering</span>
           </div>
 
-          <h1 className="text-4xl sm:text-6xl font-black tracking-tight text-white font-mono leading-[1.1]">
-            Find the <span className="text-emerald-400">Root Cause</span> of Production Failures in Seconds.
+          <h1 className="text-3xl sm:text-5xl font-bold tracking-tight text-white leading-tight">
+            AI-Powered Root Cause Analysis (RCA) System
           </h1>
 
-          <p className="text-sm sm:text-base text-zinc-400 leading-relaxed font-sans max-w-2xl mx-auto">
-            Coroot AI correlates application logs, parses crash dumps, executes a structured <strong>Five Whys diagnostic tree</strong>, and pinpoints the exact failure mechanism — not chatbot guesses.
+          <p className="text-sm sm:text-base text-zinc-400 leading-relaxed max-w-2xl mx-auto">
+            A full-stack diagnostic web application built to analyze production incident logs, correlate system errors, and deduce root causes using the structured <strong>Five Whys</strong> engineering methodology.
           </p>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2 font-mono text-xs">
+          {/* Student Info & Status Banner */}
+          <div className="p-3 rounded-lg border border-zinc-800 bg-zinc-900/60 max-w-xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-zinc-400">
+            <div>
+              <span>Student Developer: </span>
+              <strong className="text-emerald-400">Harsh</strong> (CSE)
+            </div>
+            <div className="hidden sm:block text-zinc-600">•</div>
+            <div>
+              <span>Project Status: </span>
+              <span className="text-white font-medium">Sprint 3 (~76% Implemented)</span>
+            </div>
+          </div>
+
+          {/* Call to Action Buttons */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2 text-sm">
             <Link
               to="/dashboard"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg font-bold text-black bg-emerald-400 hover:bg-emerald-300 transition shadow-[0_0_20px_rgba(16,185,129,0.3)] hover:-translate-y-0.5"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg font-medium text-white bg-emerald-600 hover:bg-emerald-500 transition"
             >
-              Launch Live Console
-              <ArrowRight className="w-4 h-4 stroke-[2.5]" />
+              Open Dashboard
+              <ArrowRight className="w-4 h-4" />
             </Link>
             <Link
               to="/new-analysis"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 rounded-lg font-medium text-zinc-300 bg-zinc-900/90 hover:bg-zinc-800 border border-zinc-800 transition"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg font-medium text-zinc-300 bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 transition"
             >
-              <Terminal className="w-3.5 h-3.5 text-zinc-400" />
-              Try Demo Incident (502 Outage)
+              <Terminal className="w-4 h-4 text-zinc-400" />
+              New Incident Investigation
             </Link>
           </div>
         </div>
 
-        {/* Coroot AI Interactive Live Diagnostic Simulation Box */}
-        <div className="rounded-2xl border border-zinc-800 bg-[#09090f] shadow-2xl p-5 sm:p-7 space-y-5 font-mono text-xs">
-          {/* Simulation Header */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-zinc-800/80 pb-4">
-            <div className="flex items-center gap-2.5">
-              <div className="w-3 h-3 rounded-full bg-rose-500 animate-ping"></div>
-              <div>
-                <div className="text-zinc-200 font-bold text-xs sm:text-sm">
-                  INCIDENT: <span className="text-rose-400">prod-us-east / checkout-service / 502-bad-gateway</span>
-                </div>
-                <div className="text-[10px] text-zinc-500 mt-0.5">
-                  Severity: CRITICAL • Ingress: Envoy / Nginx • Status: ROOT CAUSE PINPOINTED
-                </div>
+        {/* Project Overview Card */}
+        <div className="p-6 rounded-xl border border-zinc-800 bg-zinc-900/40 space-y-3">
+          <h2 className="text-base font-semibold text-white flex items-center gap-2">
+            <Activity className="w-4 h-4 text-emerald-400" />
+            Problem Statement &amp; Motivation
+          </h2>
+          <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed">
+            During production outages (like HTTP 502 Bad Gateways, database deadlocks, or application crashes), developers are forced to manually sift through thousands of noisy log lines while under pressure. 
+            This project automates incident triage by extracting error signatures from uploaded log files, organizing the timeline of events, and applying a step-by-step 5-Whys deductive chain to deliver ranked root causes and a 3-tier remediation action plan.
+          </p>
+        </div>
+
+        {/* 4-Step Pipeline Cards */}
+        <div className="space-y-4">
+          <h2 className="text-base font-semibold text-white">How the System Works</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="p-4 rounded-xl border border-zinc-800 bg-zinc-900/30 space-y-2">
+              <div className="w-8 h-8 rounded-lg bg-zinc-800 text-emerald-400 flex items-center justify-center text-xs font-bold">
+                1
               </div>
+              <h3 className="text-sm font-semibold text-white">Incident Intake</h3>
+              <p className="text-xs text-zinc-400 leading-relaxed">
+                Enter incident symptoms, time of occurrence, recent PR/config deployments, and attach raw log files.
+              </p>
             </div>
 
-            <div className="flex items-center gap-3 self-start sm:self-auto text-[11px]">
-              <span className="px-2.5 py-1 rounded bg-emerald-950/40 border border-emerald-500/40 text-emerald-400 font-bold">
-                Confidence: 88%
-              </span>
-              <span className="text-zinc-500">Time to RCA: 1.2s</span>
+            <div className="p-4 rounded-xl border border-zinc-800 bg-zinc-900/30 space-y-2">
+              <div className="w-8 h-8 rounded-lg bg-zinc-800 text-emerald-400 flex items-center justify-center text-xs font-bold">
+                2
+              </div>
+              <h3 className="text-sm font-semibold text-white">Log Extraction</h3>
+              <p className="text-xs text-zinc-400 leading-relaxed">
+                Automated regex scanner parses error spikes, warnings, stack traces, and timestamps from memory buffers.
+              </p>
             </div>
-          </div>
 
-          {/* Diagnostic Metrics Grid */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-[11px]">
-            <div className="p-3 rounded-lg bg-[#0e0e14] border border-zinc-800/70">
-              <span className="text-zinc-500 text-[10px] block">LOGS INSPECTED</span>
-              <span className="font-bold text-zinc-200">14,250 entries</span>
+            <div className="p-4 rounded-xl border border-zinc-800 bg-zinc-900/30 space-y-2">
+              <div className="w-8 h-8 rounded-lg bg-zinc-800 text-emerald-400 flex items-center justify-center text-xs font-bold">
+                3
+              </div>
+              <h3 className="text-sm font-semibold text-white">Five Whys Deduction</h3>
+              <p className="text-xs text-zinc-400 leading-relaxed">
+                Drills down 5 logical layers from surface symptoms to the root failure, ranking causes with confidence scores.
+              </p>
             </div>
-            <div className="p-3 rounded-lg bg-[#0e0e14] border border-zinc-800/70">
-              <span className="text-zinc-500 text-[10px] block">CRASH SIGNATURES</span>
-              <span className="font-bold text-rose-400">12 ECONNREFUSED</span>
-            </div>
-            <div className="p-3 rounded-lg bg-[#0e0e14] border border-zinc-800/70">
-              <span className="text-zinc-500 text-[10px] block">REASONING METHOD</span>
-              <span className="font-bold text-emerald-400">5 Whys Cascade</span>
-            </div>
-            <div className="p-3 rounded-lg bg-[#0e0e14] border border-zinc-800/70">
-              <span className="text-zinc-500 text-[10px] block">ACTION PLAN</span>
-              <span className="font-bold text-zinc-200">3 Immediate, 2 Long</span>
-            </div>
-          </div>
 
-          {/* Root Cause Deduction Highlight */}
-          <div className="p-4 rounded-xl border border-emerald-500/30 bg-emerald-950/15 space-y-2">
-            <div className="flex items-center gap-2 text-emerald-400 font-bold text-xs uppercase tracking-wider">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-              Primary Root Cause Identified:
+            <div className="p-4 rounded-xl border border-zinc-800 bg-zinc-900/30 space-y-2">
+              <div className="w-8 h-8 rounded-lg bg-zinc-800 text-emerald-400 flex items-center justify-center text-xs font-bold">
+                4
+              </div>
+              <h3 className="text-sm font-semibold text-white">Action Plan &amp; PDF</h3>
+              <p className="text-xs text-zinc-400 leading-relaxed">
+                Produces immediate (0-2h), short-term (1-3d), and long-term fix steps, with downloadable PDF reports.
+              </p>
             </div>
-            <p className="text-xs sm:text-sm font-semibold text-zinc-100 font-sans leading-relaxed">
-              Upstream Application Container Process Crashed on Port 3000 Immediately Following Deployment.
-            </p>
-            <p className="text-[11px] text-zinc-400 font-sans">
-              Why deduction: The container threw an unhandled exception binding to <code>0.0.0.0:3000</code> due to missing Redis configuration variable introduced in recent release.
-            </p>
           </div>
         </div>
 
-        {/* Feature Grid in Coroot Deep Black Aesthetic */}
-        <div className="space-y-4">
-          <div className="text-center font-mono">
-            <h2 className="text-xs font-bold uppercase tracking-wider text-emerald-400">
-              Engine Capabilities
-            </h2>
-            <p className="text-lg font-bold text-zinc-100 mt-1">
-              Engineered for SRE &amp; DevOps Incident Response
-            </p>
+        {/* Live Example Incident Box */}
+        <div className="p-5 sm:p-6 rounded-xl border border-zinc-800 bg-zinc-900/50 space-y-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-zinc-800 pb-3">
+            <div>
+              <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-400">
+                Sample Investigation Output
+              </span>
+              <h3 className="text-sm sm:text-base font-semibold text-white">
+                Incident #1042: Web Service Returning HTTP 502 Bad Gateway
+              </h3>
+            </div>
+            <span className="text-xs px-2.5 py-0.5 rounded bg-rose-950/60 border border-rose-800/80 text-rose-300 font-medium self-start sm:self-auto">
+              Critical Severity
+            </span>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs font-mono">
-            <div className="p-5 rounded-xl border border-zinc-800 bg-[#0c0c11] space-y-2 hover:border-zinc-700 transition">
-              <div className="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center mb-3">
-                <Activity className="w-4 h-4" />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+            {/* Left: Input Evidence */}
+            <div className="p-3.5 rounded-lg border border-zinc-800 bg-zinc-950 space-y-2">
+              <span className="text-[11px] font-semibold text-zinc-300 block">
+                Extracted Log Evidence &amp; Symptoms
+              </span>
+              <div className="p-2 rounded bg-zinc-900 font-mono text-[11px] text-zinc-300 space-y-1">
+                <div className="text-rose-400">
+                  [error] connect() failed (111: Connection refused) while connecting to upstream
+                </div>
+                <div className="text-amber-400">
+                  [warn] liveness probe failed 3 times. Pod CrashLoopBackOff.
+                </div>
+                <div className="text-zinc-500">
+                  Time: 2026-11-22 14:30 UTC • Recent Change: Merged PR #142 (Docker base image change)
+                </div>
               </div>
-              <h3 className="font-bold text-zinc-100 text-sm">
-                Ranked Root Causes
-              </h3>
-              <p className="text-zinc-400 text-[11px] font-sans leading-relaxed">
-                Calculates confidence percentages for multiple potential failure modes, complete with supporting evidence and contradicting points.
-              </p>
             </div>
 
-            <div className="p-5 rounded-xl border border-zinc-800 bg-[#0c0c11] space-y-2 hover:border-zinc-700 transition">
-              <div className="w-8 h-8 rounded-lg bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 flex items-center justify-center mb-3">
-                <Layers className="w-4 h-4" />
-              </div>
-              <h3 className="font-bold text-zinc-100 text-sm">
-                Five Whys Deep Dive
-              </h3>
-              <p className="text-zinc-400 text-[11px] font-sans leading-relaxed">
-                Drills down from superficial symptoms (e.g. 502 Bad Gateway) down to root process, configuration, or architectural deficiencies.
+            {/* Right: Deductions */}
+            <div className="p-3.5 rounded-lg border border-zinc-800 bg-zinc-950 space-y-2">
+              <span className="text-[11px] font-semibold text-zinc-300 block">
+                Primary Root Cause (88% Confidence)
+              </span>
+              <p className="text-zinc-300 leading-relaxed text-xs">
+                Upstream container crashed on startup due to missing environment variables introduced in PR #142, leading to failed health checks and ingress 502 connection refusal.
               </p>
+              <div className="pt-1 text-[11px] text-emerald-400 font-medium">
+                Immediate Action: Roll back deployment to v2.4.0 and supply missing DB_PORT variable.
+              </div>
             </div>
+          </div>
+        </div>
 
-            <div className="p-5 rounded-xl border border-zinc-800 bg-[#0c0c11] space-y-2 hover:border-zinc-700 transition">
-              <div className="w-8 h-8 rounded-lg bg-purple-500/10 border border-purple-500/20 text-purple-400 flex items-center justify-center mb-3">
-                <FileSearch className="w-4 h-4" />
-              </div>
-              <h3 className="font-bold text-zinc-100 text-sm">
-                Multi-Format Log Parser
-              </h3>
-              <p className="text-zinc-400 text-[11px] font-sans leading-relaxed">
-                Upload .LOG, .TXT, .CSV, or .PDF crash dumps. Automatically detects stack traces, error codes, and timestamps.
-              </p>
+        {/* Current Project Progress (~76%) */}
+        <div className="p-5 rounded-xl border border-zinc-800 bg-zinc-900/40 space-y-3">
+          <div className="flex items-center justify-between">
+            <h3 className="text-sm font-semibold text-white">
+              Project Implementation Status
+            </h3>
+            <span className="text-xs text-emerald-400 font-semibold">
+              76% Complete (Sprint 3)
+            </span>
+          </div>
+
+          <div className="w-full bg-zinc-800 h-2 rounded-full overflow-hidden">
+            <div className="bg-emerald-500 h-full rounded-full" style={{ width: '76%' }}></div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 pt-1 text-xs text-zinc-400">
+            <div className="flex items-center gap-1.5">
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+              <span>JWT Auth &amp; Incident Isolation (100%)</span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+              <span>Multi-Format Log Parser (.log, .pdf) (100%)</span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+              <span>Five Whys Reasoning Engine (100%)</span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+              <span>Ranked Root Causes &amp; Confidence (100%)</span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+              <span>PDF Report Export (PDFKit) (85%)</span>
+            </div>
+            <div className="flex items-center gap-1.5 text-zinc-500">
+              <Clock className="w-3.5 h-3.5 text-amber-400" />
+              <span>Live Cluster eBPF Stream (Planned Sprint 4)</span>
             </div>
           </div>
         </div>
 
         {/* Footer */}
-        <footer className="pt-8 border-t border-zinc-800 text-[11px] font-mono text-zinc-500 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <footer className="pt-6 border-t border-zinc-800/80 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-zinc-500">
           <div>
-            <span>Coroot AI Architecture • Developed by Harsh (CSE)</span>
+            AI-Powered Root Cause Analysis Agent • Final Year Project
           </div>
-          <div className="flex items-center gap-4 text-[10px]">
-            <span>Build: <code>v0.8.2-coroot-dark</code></span>
-            <span className="text-emerald-400">Status: 76% Implemented</span>
+          <div>
+            Built by <span className="text-zinc-300 font-medium">Harsh</span> (Computer Science &amp; Engineering)
           </div>
         </footer>
+
       </div>
     </div>
   );

@@ -28,13 +28,13 @@ import { SettingsPage } from './pages/SettingsPage';
 const ProtectedRoute = ({ children }) => {
   const { user, loading } = useAuth();
 
-  // show Coroot style spinner while checking localstorage auth token
+  // show clean spinner while checking localstorage auth token
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#050507] text-white font-mono">
+      <div className="min-h-screen flex items-center justify-center bg-[#09090b] text-white">
         <div className="flex flex-col items-center gap-2">
-          <div className="w-7 h-7 border-2 border-zinc-800 border-t-emerald-400 rounded-full animate-spin"></div>
-          <span className="text-xs text-zinc-500">Checking auth token...</span>
+          <div className="w-7 h-7 border-2 border-zinc-800 border-t-emerald-500 rounded-full animate-spin"></div>
+          <span className="text-xs text-zinc-400">Loading workspace...</span>
         </div>
       </div>
     );
@@ -49,7 +49,7 @@ const ProtectedRoute = ({ children }) => {
   return (
     <div className="flex">
       <Sidebar />
-      <main className="flex-1 overflow-x-hidden min-h-[calc(100vh-3.5rem)] bg-[#050507]">
+      <main className="flex-1 overflow-x-hidden min-h-[calc(100vh-3.5rem)] bg-[#09090b]">
         {children}
       </main>
     </div>
@@ -61,7 +61,7 @@ export default function App() {
     <ThemeProvider>
       <AuthProvider>
         <BrowserRouter>
-          <div className="min-h-screen bg-[#050507] text-[#e4e4e7] flex flex-col font-sans selection:bg-emerald-500/20">
+          <div className="min-h-screen bg-[#09090b] text-zinc-100 flex flex-col font-sans">
             {/* Top Navigation */}
             <Navbar />
 
