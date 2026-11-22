@@ -2,7 +2,7 @@
  * Project: AI-Powered Root Cause Analysis Agent
  * Author: Harsh (CSE)
  * File: App.jsx
- * Description: Main React routing setup with Coroot AI static black theme.
+ * Description: Main React routing setup with Jira Software enterprise layout.
  */
 
 import React from 'react';
@@ -24,17 +24,16 @@ import { ReportViewPage } from './pages/ReportViewPage';
 import { SettingsPage } from './pages/SettingsPage';
 
 // Protected Route Wrapper Component
-// If user is not logged in, redirect them to /login
 const ProtectedRoute = ({ children }) => {
   const { user, loading } = useAuth();
 
-  // show clean spinner while checking localstorage auth token
+  // Jira clean spinner
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#09090b] text-white">
+      <div className="min-h-screen flex items-center justify-center bg-[#f4f5f7] text-[#172b4d]">
         <div className="flex flex-col items-center gap-2">
-          <div className="w-7 h-7 border-2 border-zinc-800 border-t-emerald-500 rounded-full animate-spin"></div>
-          <span className="text-xs text-zinc-400">Loading workspace...</span>
+          <div className="w-8 h-8 border-2 border-[#dfe1e6] border-t-[#0052cc] rounded-full animate-spin"></div>
+          <span className="text-xs text-[#5e6c84]">Loading Jira workspace...</span>
         </div>
       </div>
     );
@@ -45,11 +44,11 @@ const ProtectedRoute = ({ children }) => {
     return <Navigate to="/login" replace />;
   }
 
-  // user is logged in -> render sidebar + main page content
+  // user is logged in -> render sidebar + main content
   return (
-    <div className="flex">
+    <div className="flex flex-1 min-h-[calc(100vh-3.5rem)]">
       <Sidebar />
-      <main className="flex-1 overflow-x-hidden min-h-[calc(100vh-3.5rem)] bg-[#09090b]">
+      <main className="flex-1 overflow-x-hidden bg-[#f4f5f7]">
         {children}
       </main>
     </div>
@@ -61,8 +60,8 @@ export default function App() {
     <ThemeProvider>
       <AuthProvider>
         <BrowserRouter>
-          <div className="min-h-screen bg-[#09090b] text-zinc-100 flex flex-col font-sans">
-            {/* Top Navigation */}
+          <div className="min-h-screen bg-[#f4f5f7] text-[#172b4d] flex flex-col font-sans">
+            {/* Top Jira Navigation */}
             <Navbar />
 
             {/* Application Routes */}

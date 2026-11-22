@@ -2,14 +2,16 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { 
-  LogOut, 
   Plus, 
-  CheckCircle2, 
-  Terminal,
-  Activity,
+  Search, 
+  Bell, 
+  Settings as SettingsIcon, 
+  HelpCircle, 
+  LogOut,
   Layers,
-  X,
-  ShieldCheck
+  ChevronDown,
+  CheckCircle2,
+  X
 } from 'lucide-react';
 
 export const Navbar = () => {
@@ -24,59 +26,101 @@ export const Navbar = () => {
 
   return (
     <>
-      <header className="sticky top-0 z-40 w-full border-b border-zinc-800 bg-zinc-950">
-        <div className="flex items-center justify-between h-14 px-4 sm:px-6 lg:px-8">
-          {/* Brand & Project Name */}
-          <div className="flex items-center gap-3">
-            <Link to={user ? "/dashboard" : "/"} className="flex items-center gap-2">
-              <div className="w-7 h-7 rounded-lg bg-emerald-600 text-white flex items-center justify-center font-bold text-xs">
-                <ShieldCheck className="w-4 h-4" />
+      <header className="sticky top-0 z-40 w-full border-b border-[#dfe1e6] bg-white h-14">
+        <div className="flex items-center justify-between h-full px-4 sm:px-6">
+          
+          {/* Left: Jira Logo & Menus */}
+          <div className="flex items-center gap-6">
+            <Link to={user ? "/dashboard" : "/"} className="flex items-center gap-2 group">
+              {/* Jira Blue Diamond Icon */}
+              <div className="w-6 h-6 flex items-center justify-center">
+                <svg viewBox="0 0 24 24" className="w-5 h-5 text-[#0052cc] fill-current">
+                  <path d="M11.53 2c0 2.4 1.97 4.35 4.35 4.35h1.78v1.74c0 2.4 1.97 4.35 4.34 4.35V2h-10.47zm-4.7 4.78c0 2.4 1.97 4.35 4.35 4.35h1.78v1.75c0 2.4 1.97 4.35 4.35 4.35V6.78H6.83zm-4.7 4.79c0 2.4 1.97 4.35 4.35 4.35h1.78v1.74c0 2.4 1.97 4.35 4.35 4.35v-10.44H2.13z"/>
+                </svg>
               </div>
-              <div className="flex items-center gap-2">
-                <span className="font-semibold text-sm tracking-tight text-white">
-                  RCA Agent
-                </span>
-              </div>
+              <span className="font-bold text-base tracking-tight text-[#172b4d]">
+                Jira <span className="font-normal text-[#5e6c84]">Software</span>
+              </span>
             </Link>
 
-            {/* Human Project Progress Badge */}
-            <button
-              onClick={() => setShowStatusModal(true)}
-              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs bg-zinc-900 border border-zinc-800 hover:border-zinc-700 text-zinc-300"
-              title="Click to view development milestones"
-            >
-              <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
-              <span>Sprint 3: </span>
-              <span className="text-emerald-400 font-medium">76% Built</span>
-            </button>
+            {/* Jira Top Menu Links */}
+            {user && (
+              <nav className="hidden md:flex items-center gap-1 text-sm text-[#172b4d]">
+                <Link
+                  to="/dashboard"
+                  className="px-2.5 py-1.5 rounded hover:bg-[#ebecf0] font-medium flex items-center gap-1"
+                >
+                  Dashboards <ChevronDown className="w-3.5 h-3.5 text-[#5e6c84]" />
+                </Link>
+                <Link
+                  to="/dashboard"
+                  className="px-2.5 py-1.5 rounded hover:bg-[#ebecf0] font-medium flex items-center gap-1"
+                >
+                  Projects <ChevronDown className="w-3.5 h-3.5 text-[#5e6c84]" />
+                </Link>
+                <Link
+                  to="/history"
+                  className="px-2.5 py-1.5 rounded hover:bg-[#ebecf0] font-medium flex items-center gap-1"
+                >
+                  Issues <ChevronDown className="w-3.5 h-3.5 text-[#5e6c84]" />
+                </Link>
+
+                {/* Jira Classic Blue "Create" Button */}
+                <Link
+                  to="/new-analysis"
+                  className="ml-2 px-3 py-1 rounded bg-[#0052cc] hover:bg-[#0065ff] text-white font-medium text-xs shadow-sm transition flex items-center gap-1"
+                >
+                  <Plus className="w-3.5 h-3.5" />
+                  Create
+                </Link>
+              </nav>
+            )}
           </div>
 
-          {/* Right Action Controls */}
-          <div className="flex items-center gap-2.5">
+          {/* Right: Search, Settings & Profile */}
+          <div className="flex items-center gap-3">
+            {/* Jira Search Input */}
             {user && (
-              <Link
-                to="/new-analysis"
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg text-white bg-emerald-600 hover:bg-emerald-500"
-              >
-                <Plus className="w-3.5 h-3.5" />
-                <span>New Incident</span>
-              </Link>
+              <div className="relative hidden sm:block w-48 lg:w-64">
+                <Search className="w-3.5 h-3.5 text-[#6b778c] absolute left-2.5 top-1/2 -translate-y-1/2" />
+                <input
+                  type="text"
+                  placeholder="Search issues, logs..."
+                  className="w-full pl-8 pr-3 py-1 text-xs rounded border border-[#dfe1e6] bg-[#fafbfc] text-[#172b4d] placeholder-[#6b778c] focus:outline-none focus:border-[#4c9aff] focus:bg-white"
+                />
+              </div>
             )}
 
+            {/* Status / Sprint Pill */}
+            <button
+              onClick={() => setShowStatusModal(true)}
+              className="text-xs text-[#0052cc] hover:underline font-medium hidden sm:inline"
+            >
+              Sprint 3 (~76%)
+            </button>
+
             {user ? (
-              <div className="flex items-center gap-2 pl-3 border-l border-zinc-800">
-                <div className="hidden sm:flex flex-col text-right">
-                  <span className="text-xs font-medium text-zinc-200 leading-tight">
-                    {user.name}
-                  </span>
-                  <span className="text-[11px] text-zinc-500 leading-tight">
-                    {user.email}
-                  </span>
+              <div className="flex items-center gap-2 pl-2 border-l border-[#dfe1e6]">
+                <Link
+                  to="/settings"
+                  className="p-1.5 rounded hover:bg-[#ebecf0] text-[#5e6c84] hover:text-[#172b4d]"
+                  title="Settings"
+                >
+                  <SettingsIcon className="w-4 h-4" />
+                </Link>
+
+                {/* User Avatar Circle */}
+                <div
+                  className="w-7 h-7 rounded-full bg-[#0052cc] text-white font-bold text-xs flex items-center justify-center cursor-pointer select-none"
+                  title={`${user.name} (${user.email})`}
+                >
+                  {user.name ? user.name.charAt(0).toUpperCase() : 'H'}
                 </div>
+
                 <button
                   onClick={handleLogout}
-                  className="p-1.5 rounded-md text-zinc-400 hover:text-rose-400 hover:bg-zinc-900"
-                  title="Sign out"
+                  className="p-1.5 rounded hover:bg-[#ffebe6] text-[#6b778c] hover:text-[#de350b]"
+                  title="Log out"
                 >
                   <LogOut className="w-4 h-4" />
                 </button>
@@ -85,90 +129,72 @@ export const Navbar = () => {
               <div className="flex items-center gap-2 text-xs">
                 <Link
                   to="/login"
-                  className="px-3 py-1.5 text-zinc-400 hover:text-white"
+                  className="px-3 py-1 text-[#0052cc] font-medium hover:underline"
                 >
-                  Sign In
+                  Log in
                 </Link>
                 <Link
                   to="/register"
-                  className="px-3 py-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-white font-medium border border-zinc-700"
+                  className="px-3 py-1 rounded bg-[#0052cc] hover:bg-[#0065ff] text-white font-medium shadow-sm"
                 >
-                  Register
+                  Sign up
                 </Link>
               </div>
             )}
           </div>
+
         </div>
       </header>
 
-      {/* Human Project Milestone Modal */}
+      {/* Jira Status Modal */}
       {showStatusModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75">
-          <div className="w-full max-w-lg rounded-xl border border-zinc-800 bg-zinc-900 shadow-xl p-5 sm:p-6 space-y-4 text-xs">
-            <div className="flex items-center justify-between border-b border-zinc-800 pb-3">
-              <div className="flex items-center gap-2">
-                <Activity className="w-4 h-4 text-emerald-400" />
-                <h3 className="font-semibold text-sm text-white">
-                  Project Development Status &amp; Roadmap
-                </h3>
-              </div>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40">
+          <div className="w-full max-w-md rounded-lg border border-[#dfe1e6] bg-white shadow-xl p-5 space-y-4 text-xs text-[#172b4d]">
+            <div className="flex items-center justify-between border-b border-[#dfe1e6] pb-2">
+              <h3 className="font-bold text-sm text-[#172b4d]">
+                RCA Sprint Development Roadmap
+              </h3>
               <button
                 onClick={() => setShowStatusModal(false)}
-                className="text-zinc-400 hover:text-white p-1"
+                className="text-[#6b778c] hover:text-[#172b4d]"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
 
-            <div className="space-y-1.5 text-zinc-300">
-              <div className="flex justify-between text-xs">
-                <span className="text-zinc-400">Total Project Completion:</span>
-                <span className="text-emerald-400 font-bold">~76% (MVP Complete)</span>
+            <div className="space-y-1">
+              <div className="flex justify-between text-xs font-semibold">
+                <span>Progress:</span>
+                <span className="text-[#0052cc]">76% Completed</span>
               </div>
-              <div className="w-full bg-zinc-800 h-2 rounded-full overflow-hidden">
-                <div className="bg-emerald-500 h-full rounded-full" style={{ width: '76%' }}></div>
-              </div>
-            </div>
-
-            <div className="space-y-2 pt-1 text-xs">
-              <div className="p-2.5 rounded-lg bg-zinc-950/60 border border-zinc-800 flex items-center justify-between">
-                <span className="text-zinc-200 flex items-center gap-2">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-                  Sprint 1: Auth &amp; Incident Case Management
-                </span>
-                <span className="text-emerald-400 font-medium">Done (100%)</span>
-              </div>
-
-              <div className="p-2.5 rounded-lg bg-zinc-950/60 border border-zinc-800 flex items-center justify-between">
-                <span className="text-zinc-200 flex items-center gap-2">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-                  Sprint 2: Multi-Format Log Parser (.log, .pdf, .csv)
-                </span>
-                <span className="text-emerald-400 font-medium">Done (100%)</span>
-              </div>
-
-              <div className="p-2.5 rounded-lg bg-zinc-950/60 border border-zinc-800 flex items-center justify-between">
-                <span className="text-zinc-200 flex items-center gap-2">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-                  Sprint 3: Five Whys Deductive Reasoning &amp; PDF Report
-                </span>
-                <span className="text-emerald-400 font-medium">Done (90%)</span>
-              </div>
-
-              <div className="p-2.5 rounded-lg bg-zinc-950/60 border border-zinc-800/80 flex items-center justify-between">
-                <span className="text-zinc-400 flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-amber-400"></span>
-                  Sprint 4: Multi-Cluster Telemetry Streaming
-                </span>
-                <span className="text-amber-400 font-medium">Planned (In Progress)</span>
+              <div className="w-full bg-[#ebecf0] h-2 rounded-full overflow-hidden">
+                <div className="bg-[#0052cc] h-full rounded-full" style={{ width: '76%' }}></div>
               </div>
             </div>
 
-            <div className="pt-2 text-[11px] text-zinc-500 border-t border-zinc-800 flex justify-between items-center">
-              <span>Developer: Harsh • B.Tech Computer Science</span>
+            <div className="space-y-2 text-xs text-[#42526e]">
+              <div className="p-2 rounded bg-[#f4f5f7] flex items-center justify-between">
+                <span>Sprint 1: User Auth &amp; Incident Records</span>
+                <span className="text-[#006644] font-medium">Done</span>
+              </div>
+              <div className="p-2 rounded bg-[#f4f5f7] flex items-center justify-between">
+                <span>Sprint 2: Multi-format Log Parser (.pdf, .log, .csv)</span>
+                <span className="text-[#006644] font-medium">Done</span>
+              </div>
+              <div className="p-2 rounded bg-[#f4f5f7] flex items-center justify-between">
+                <span>Sprint 3: Five Whys Deduction &amp; PDF Export</span>
+                <span className="text-[#006644] font-medium">Done</span>
+              </div>
+              <div className="p-2 rounded bg-[#f4f5f7] flex items-center justify-between text-[#6b778c]">
+                <span>Sprint 4: Multi-Node Telemetry</span>
+                <span className="text-[#ff8b00] font-medium">In Progress</span>
+              </div>
+            </div>
+
+            <div className="pt-2 text-right">
               <button
                 onClick={() => setShowStatusModal(false)}
-                className="px-3 py-1 rounded-md bg-zinc-800 text-zinc-200 hover:bg-zinc-700"
+                className="px-3 py-1 rounded bg-[#ebecf0] hover:bg-[#dfe1e6] text-[#172b4d] font-medium"
               >
                 Close
               </button>

@@ -14,11 +14,13 @@ import {
   Upload, 
   FileText, 
   CheckCircle2, 
-  Activity,
+  ChevronDown,
+  ChevronRight,
+  User as UserIcon,
+  Calendar,
+  Clock,
   Layers,
-  Terminal,
-  ShieldCheck,
-  AlertTriangle
+  Share2
 } from 'lucide-react';
 
 export const AnalysisResultPage = () => {
@@ -27,7 +29,6 @@ export const AnalysisResultPage = () => {
 
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState('ranking'); // 'ranking', 'fivewhys', 'recommendations', 'evidence', 'future_scope'
   const [uploading, setUploading] = useState(false);
   const [reanalyzing, setReanalyzing] = useState(false);
   const [newFile, setNewFile] = useState(null);
@@ -109,7 +110,7 @@ export const AnalysisResultPage = () => {
   };
 
   const handleDeleteAnalysis = async () => {
-    if (!window.confirm('Are you sure you want to permanently delete this incident record?')) return;
+    if (!window.confirm('Are you sure you want to delete this issue?')) return;
     try {
       await api.delete(`/analysis/${id}`);
       navigate('/history');
@@ -125,10 +126,10 @@ export const AnalysisResultPage = () => {
 
   if (loading) {
     return (
-      <div className="p-8 flex items-center justify-center min-h-[400px] font-mono">
+      <div className="p-8 flex items-center justify-center min-h-[400px]">
         <div className="flex flex-col items-center gap-2">
-          <div className="w-6 h-6 border-2 border-zinc-700 border-t-emerald-400 rounded-full animate-spin"></div>
-          <span className="text-xs text-zinc-500">Executing Coroot root cause analysis...</span>
+          <div className="w-8 h-8 border-2 border-[#dfe1e6] border-t-[#0052cc] rounded-full animate-spin"></div>
+          <span className="text-xs text-[#5e6c84]">Loading issue details...</span>
         </div>
       </div>
     );
@@ -136,9 +137,9 @@ export const AnalysisResultPage = () => {
 
   if (!data || !data.analysis) {
     return (
-      <div className="p-8 text-center text-xs font-mono text-zinc-400">
-        <h2>Investigation not found.</h2>
-        <Link to="/dashboard" className="text-emerald-400 hover:underline mt-2 inline-block">
+      <div className="p-8 text-center text-xs text-[#5e6c84]">
+        <h2>Incident not found.</h2>
+        <Link to="/dashboard" className="text-[#0052cc] hover:underline mt-2 inline-block">
           Return to Dashboard
         </Link>
       </div>
@@ -146,306 +147,332 @@ export const AnalysisResultPage = () => {
   }
 
   const { analysis, result, evidenceList } = data;
+  const issueKey = `RCA-${analysis._id.substring(analysis._id.length - 4).toUpperCase()}`;
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8 max-w-6xl mx-auto space-y-5 font-mono text-zinc-100">
-      {/* Top Header & Breadcrumbs */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-zinc-800 pb-3">
-        <div className="flex items-center gap-2.5">
-          <Link
-            to="/dashboard"
-            className="p-1.5 rounded-lg border border-zinc-800 bg-[#0c0c11] text-zinc-400 hover:text-white"
-          >
-            <ArrowLeft className="w-4 h-4" />
-          </Link>
-          <div>
-            <div className="flex items-center gap-2 flex-wrap mb-1">
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-zinc-900 border border-zinc-800 text-zinc-400">
-                {analysis.category}
-              </span>
-              <SeverityBadge severity={analysis.severity} />
-              <StatusBadge status={analysis.status} />
-              <span className="text-[10px] text-zinc-500">
-                REF: {analysis._id.substring(0, 8)}
-              </span>
-            </div>
-            <h1 className="text-base sm:text-lg font-bold text-white tracking-tight">
-              {analysis.title}
-            </h1>
-          </div>
+    <div className="p-4 sm:p-6 max-w-7xl mx-auto space-y-4 text-[#172b4d]">
+      
+      {/* Top Jira Breadcrumbs & Header */}
+      <div className="space-y-1">
+        <div className="flex items-center gap-2 text-xs text-[#5e6c84]">
+          <Link to="/dashboard" className="hover:underline">Projects</Link>
+          <span>/</span>
+          <Link to="/history" className="hover:underline">Sprint 3</Link>
+          <span>/</span>
+          <span className="font-semibold text-[#172b4d] bg-[#ebecf0] px-1.5 py-0.5 rounded text-[11px]">
+            {issueKey}
+          </span>
         </div>
 
-        {/* Action Controls */}
-        <div className="flex flex-wrap items-center gap-2 text-xs">
-          <select
-            disabled={statusUpdating}
-            value={analysis.status}
-            onChange={(e) => handleStatusChange(e.target.value)}
-            className="px-2 py-1 rounded-md border border-zinc-800 bg-[#0c0c11] text-xs font-medium text-zinc-200"
-          >
-            <option value="Open">Status: Open</option>
-            <option value="In Progress">Status: In Progress</option>
-            <option value="Resolved">Status: Resolved</option>
-          </select>
+        <h1 className="text-xl sm:text-2xl font-bold text-[#172b4d] tracking-tight">
+          {analysis.title}
+        </h1>
+      </div>
+
+      {/* Jira Action Toolbar (Edit, Status, More, Export) */}
+      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#dfe1e6] pb-3 text-xs">
+        <div className="flex items-center gap-2 flex-wrap">
+          {/* Status Dropdown */}
+          <div className="relative">
+            <select
+              disabled={statusUpdating}
+              value={analysis.status}
+              onChange={(e) => handleStatusChange(e.target.value)}
+              className="px-2.5 py-1.5 rounded font-bold text-xs bg-[#ebecf0] hover:bg-[#dfe1e6] text-[#172b4d] border border-[#dfe1e6] focus:outline-none cursor-pointer"
+            >
+              <option value="Open">TO DO</option>
+              <option value="In Progress">IN PROGRESS</option>
+              <option value="Resolved">DONE / RESOLVED</option>
+            </select>
+          </div>
 
           <button
             onClick={handleReanalyze}
             disabled={reanalyzing}
-            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md border border-zinc-800 bg-[#0c0c11] hover:border-zinc-700 text-zinc-300 transition"
-            title="Re-run Coroot Engine"
+            className="px-2.5 py-1.5 rounded bg-[#ebecf0] hover:bg-[#dfe1e6] text-[#172b4d] font-medium flex items-center gap-1.5"
+            title="Re-run analysis engine"
           >
-            <RefreshCw className={`w-3.5 h-3.5 ${reanalyzing ? 'animate-spin text-emerald-400' : ''}`} />
-            {reanalyzing ? 'Diagnosing...' : 'Re-Run'}
+            <RefreshCw className={`w-3.5 h-3.5 ${reanalyzing ? 'animate-spin text-[#0052cc]' : ''}`} />
+            <span>{reanalyzing ? 'Analyzing...' : 'Re-Analyze'}</span>
           </button>
 
           <Link
             to={`/analysis/${analysis._id}/report`}
-            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md border border-zinc-800 bg-[#0c0c11] hover:border-zinc-700 text-zinc-300 transition"
+            className="px-2.5 py-1.5 rounded bg-[#ebecf0] hover:bg-[#dfe1e6] text-[#172b4d] font-medium flex items-center gap-1.5"
           >
-            <Printer className="w-3.5 h-3.5" />
-            Report
+            <Printer className="w-3.5 h-3.5 text-[#5e6c84]" />
+            <span>Print View</span>
           </Link>
 
           <button
             onClick={downloadPDF}
-            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-emerald-400 hover:bg-emerald-300 text-black font-bold transition shadow-[0_0_12px_rgba(16,185,129,0.2)]"
+            className="px-3 py-1.5 rounded bg-[#0052cc] hover:bg-[#0065ff] text-white font-medium flex items-center gap-1.5 shadow-sm"
           >
             <Download className="w-3.5 h-3.5" />
-            PDF Export
+            <span>Export PDF</span>
           </button>
+        </div>
 
+        <div>
           <button
             onClick={handleDeleteAnalysis}
-            className="p-1 rounded-md text-zinc-500 hover:text-rose-400 transition"
-            title="Delete investigation"
+            className="p-1.5 rounded text-[#5e6c84] hover:text-[#de350b] hover:bg-[#ffebe6]"
+            title="Delete issue"
           >
             <Trash2 className="w-4 h-4" />
           </button>
         </div>
       </div>
 
-      {/* Coroot Diagnostic Overview Box */}
-      <div className="p-4 rounded-xl border border-zinc-800 bg-[#0c0c11] text-xs space-y-2">
-        <div className="flex items-center justify-between text-[10px] text-zinc-500">
-          <span>DIAGNOSTIC TELEMETRY SUMMARY</span>
-          <span className="text-emerald-400 font-semibold">Engine: {result?.modelUsed || 'Coroot Heuristic v0.8.2'}</span>
-        </div>
-        <p className="text-zinc-200 leading-relaxed font-sans text-xs sm:text-sm">
-          {result?.problemSummary || analysis.description}
-        </p>
+      {/* Two-Column Jira Issue Detail Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
+        {/* Left 2 Columns: Main Details, Description, 5 Whys, Root Causes */}
+        <div className="lg:col-span-2 space-y-6">
+          
+          {/* Section: Details Table */}
+          <div className="p-4 rounded-lg border border-[#dfe1e6] bg-white space-y-3">
+            <h3 className="font-bold text-xs uppercase tracking-wider text-[#5e6c84] flex items-center gap-1">
+              <ChevronDown className="w-3.5 h-3.5" /> Details
+            </h3>
 
-        {/* Symptoms tags */}
-        {result?.identifiedSymptoms && result.identifiedSymptoms.length > 0 && (
-          <div className="pt-1 flex flex-wrap items-center gap-1.5">
-            <span className="text-[10px] text-zinc-500 mr-1">CORRELATED SYMPTOMS:</span>
-            {result.identifiedSymptoms.map((sym, idx) => (
-              <span
-                key={idx}
-                className="px-2 py-0.5 rounded bg-zinc-900 border border-zinc-800 text-zinc-300 text-[10px]"
-              >
-                {sym}
-              </span>
-            ))}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+              <div>
+                <span className="text-[#5e6c84] block text-[11px]">Type:</span>
+                <span className="font-semibold text-[#de350b] flex items-center gap-1 mt-0.5">
+                  <span className="w-2 h-2 rounded-sm bg-[#de350b]"></span>
+                  Incident / Bug
+                </span>
+              </div>
+
+              <div>
+                <span className="text-[#5e6c84] block text-[11px]">Priority:</span>
+                <div className="mt-0.5">
+                  <SeverityBadge severity={analysis.severity} />
+                </div>
+              </div>
+
+              <div>
+                <span className="text-[#5e6c84] block text-[11px]">Resolution:</span>
+                <span className="font-semibold text-[#172b4d] block mt-0.5">
+                  {analysis.status === 'Resolved' ? 'Resolved' : 'Unresolved'}
+                </span>
+              </div>
+
+              <div>
+                <span className="text-[#5e6c84] block text-[11px]">Category:</span>
+                <span className="font-semibold text-[#172b4d] block mt-0.5">
+                  {analysis.category}
+                </span>
+              </div>
+            </div>
           </div>
-        )}
-      </div>
 
-      {/* Navigation Tabs */}
-      <div className="flex border-b border-zinc-800 overflow-x-auto space-x-1 text-xs">
-        <button
-          onClick={() => setActiveTab('ranking')}
-          className={`px-3 py-2 font-medium border-b-2 transition-all whitespace-nowrap ${
-            activeTab === 'ranking'
-              ? 'border-emerald-400 text-emerald-400 font-bold'
-              : 'border-transparent text-zinc-400 hover:text-white'
-          }`}
-        >
-          Root Cause Ranking ({result?.possibleCauses?.length || 0})
-        </button>
+          {/* Section: Description & Symptoms */}
+          <div className="p-4 rounded-lg border border-[#dfe1e6] bg-white space-y-3">
+            <h3 className="font-bold text-xs uppercase tracking-wider text-[#5e6c84] flex items-center gap-1">
+              <ChevronDown className="w-3.5 h-3.5" /> Description &amp; Incident Context
+            </h3>
 
-        <button
-          onClick={() => setActiveTab('fivewhys')}
-          className={`px-3 py-2 font-medium border-b-2 transition-all whitespace-nowrap ${
-            activeTab === 'fivewhys'
-              ? 'border-emerald-400 text-emerald-400 font-bold'
-              : 'border-transparent text-zinc-400 hover:text-white'
-          }`}
-        >
-          Five Whys Diagnostic ({result?.fiveWhys?.length || 0})
-        </button>
+            <p className="text-xs sm:text-sm text-[#172b4d] leading-relaxed whitespace-pre-wrap">
+              {analysis.description}
+            </p>
 
-        <button
-          onClick={() => setActiveTab('recommendations')}
-          className={`px-3 py-2 font-medium border-b-2 transition-all whitespace-nowrap ${
-            activeTab === 'recommendations'
-              ? 'border-emerald-400 text-emerald-400 font-bold'
-              : 'border-transparent text-zinc-400 hover:text-white'
-          }`}
-        >
-          Remediation Plan
-        </button>
+            {analysis.symptoms && analysis.symptoms.length > 0 && (
+              <div className="pt-2 border-t border-[#ebecf0]">
+                <span className="font-semibold text-xs text-[#5e6c84] block mb-1">
+                  Observed Symptoms:
+                </span>
+                <div className="flex flex-wrap gap-1.5">
+                  {analysis.symptoms.map((sym, sIdx) => (
+                    <span key={sIdx} className="px-2 py-0.5 rounded bg-[#f4f5f7] border border-[#dfe1e6] text-[#172b4d] text-xs">
+                      {sym}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
 
-        <button
-          onClick={() => setActiveTab('evidence')}
-          className={`px-3 py-2 font-medium border-b-2 transition-all whitespace-nowrap ${
-            activeTab === 'evidence'
-              ? 'border-emerald-400 text-emerald-400 font-bold'
-              : 'border-transparent text-zinc-400 hover:text-white'
-          }`}
-        >
-          Logs &amp; Evidence ({evidenceList?.length || 0})
-        </button>
-      </div>
+            {analysis.errorMessages && (
+              <div className="pt-2 border-t border-[#ebecf0]">
+                <span className="font-semibold text-xs text-[#5e6c84] block mb-1">
+                  Error Log Traces:
+                </span>
+                <pre className="p-2.5 rounded bg-[#f4f5f7] border border-[#dfe1e6] text-[#de350b] font-mono text-xs overflow-x-auto whitespace-pre-wrap">
+                  {analysis.errorMessages}
+                </pre>
+              </div>
+            )}
+          </div>
 
-      {/* Tab 1: Causes */}
-      {activeTab === 'ranking' && (
+          {/* Section: Five Whys Deductive Analysis */}
+          <div className="p-4 rounded-lg border border-[#dfe1e6] bg-white space-y-3">
+            <div className="flex items-center justify-between border-b border-[#ebecf0] pb-2">
+              <h3 className="font-bold text-xs uppercase tracking-wider text-[#5e6c84] flex items-center gap-1">
+                <ChevronDown className="w-3.5 h-3.5" /> Five Whys Deductive Reasoning
+              </h3>
+              <span className="text-[11px] text-[#0052cc] font-medium">5-Step Chain</span>
+            </div>
+
+            <FiveWhysAccordion 
+              fiveWhys={result?.fiveWhys || []} 
+              finalRootCause={result?.finalRootCause} 
+            />
+          </div>
+
+          {/* Section: Ranked Possible Root Causes */}
+          <div className="p-4 rounded-lg border border-[#dfe1e6] bg-white space-y-3">
+            <div className="flex items-center justify-between border-b border-[#ebecf0] pb-2">
+              <h3 className="font-bold text-xs uppercase tracking-wider text-[#5e6c84] flex items-center gap-1">
+                <ChevronDown className="w-3.5 h-3.5" /> Ranked Root Causes &amp; Confidence
+              </h3>
+              <span className="text-[11px] text-[#5e6c84]">Weighted Analysis</span>
+            </div>
+
+            <CauseRankingCard possibleCauses={result?.possibleCauses || []} />
+          </div>
+
+          {/* Section: Three-Tier Remediation Plan */}
+          <div className="p-4 rounded-lg border border-[#dfe1e6] bg-white space-y-3">
+            <div className="flex items-center justify-between border-b border-[#ebecf0] pb-2">
+              <h3 className="font-bold text-xs uppercase tracking-wider text-[#5e6c84] flex items-center gap-1">
+                <ChevronDown className="w-3.5 h-3.5" /> Remediation Action Plan
+              </h3>
+              <span className="text-[11px] text-[#006644] font-medium">3-Tier Staging</span>
+            </div>
+
+            <RecommendationCard recommendations={result?.recommendations} />
+          </div>
+
+        </div>
+
+        {/* Right 1 Column: People, Dates, Attachments, Metadata */}
         <div className="space-y-4">
-          {result?.mostLikelyCause && (
-            <div className="p-4 rounded-xl border border-emerald-500/40 bg-emerald-950/20 text-xs space-y-1 shadow-[0_0_20px_rgba(16,185,129,0.1)]">
-              <span className="text-[10px] uppercase font-bold text-emerald-400 block tracking-wider">
-                PRIMARY ROOT CAUSE IDENTIFIED (HIGHEST PROBABILITY)
-              </span>
-              <p className="font-bold text-white text-sm font-sans">
-                {result.mostLikelyCause}
-              </p>
-              {result.confidenceAssessment && (
-                <p className="text-[11px] text-zinc-400 font-sans mt-1">
-                  {result.confidenceAssessment}
-                </p>
+          
+          {/* People Box */}
+          <div className="p-4 rounded-lg border border-[#dfe1e6] bg-white space-y-3 text-xs">
+            <h3 className="font-bold text-xs uppercase tracking-wider text-[#5e6c84] flex items-center gap-1 border-b border-[#ebecf0] pb-2">
+              <UserIcon className="w-3.5 h-3.5" /> People
+            </h3>
+
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-[#5e6c84]">Assignee:</span>
+                <span className="font-semibold text-[#172b4d] flex items-center gap-1.5">
+                  <div className="w-5 h-5 rounded-full bg-[#0052cc] text-white text-[10px] flex items-center justify-center font-bold">
+                    H
+                  </div>
+                  {analysis.user?.name || 'Harsh'}
+                </span>
+              </div>
+
+              <div className="flex items-center justify-between">
+                <span className="text-[#5e6c84]">Reporter:</span>
+                <span className="text-[#172b4d] truncate max-w-[150px]">
+                  {analysis.user?.email || 'harsh@test.com'}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Dates Box */}
+          <div className="p-4 rounded-lg border border-[#dfe1e6] bg-white space-y-3 text-xs">
+            <h3 className="font-bold text-xs uppercase tracking-wider text-[#5e6c84] flex items-center gap-1 border-b border-[#ebecf0] pb-2">
+              <Calendar className="w-3.5 h-3.5" /> Dates &amp; Timeline
+            </h3>
+
+            <div className="space-y-2 text-xs">
+              <div className="flex justify-between">
+                <span className="text-[#5e6c84]">Created:</span>
+                <span className="text-[#172b4d] font-medium">
+                  {new Date(analysis.createdAt).toLocaleString()}
+                </span>
+              </div>
+
+              {analysis.timeOfOccurrence && (
+                <div className="flex justify-between">
+                  <span className="text-[#5e6c84]">Incident Time:</span>
+                  <span className="text-[#172b4d]">
+                    {analysis.timeOfOccurrence}
+                  </span>
+                </div>
+              )}
+
+              {analysis.recentChanges && (
+                <div className="pt-2 border-t border-[#ebecf0]">
+                  <span className="text-[#5e6c84] block text-[11px] mb-0.5">Recent Changes:</span>
+                  <span className="text-[#172b4d] font-medium text-xs block">
+                    {analysis.recentChanges}
+                  </span>
+                </div>
               )}
             </div>
-          )}
-
-          <CauseRankingCard possibleCauses={result?.possibleCauses} />
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
-            <div className="p-4 rounded-xl border border-zinc-800 bg-[#0c0c11] space-y-1.5">
-              <span className="text-[10px] uppercase font-bold text-emerald-400 block tracking-wider">
-                Recommended Verification Steps
-              </span>
-              <ul className="list-disc list-inside text-zinc-400 space-y-1 text-[11px] font-sans">
-                {(result?.investigationSteps || []).map((step, idx) => (
-                  <li key={idx}>{step}</li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="p-4 rounded-xl border border-zinc-800 bg-[#0c0c11] space-y-1.5">
-              <span className="text-[10px] uppercase font-bold text-amber-400 block tracking-wider">
-                Missing Information to Confirm
-              </span>
-              <ul className="list-disc list-inside text-zinc-400 space-y-1 text-[11px] font-sans">
-                {(result?.missingInformation || []).map((info, idx) => (
-                  <li key={idx}>{info}</li>
-                ))}
-              </ul>
-            </div>
           </div>
-        </div>
-      )}
 
-      {/* Tab 2: 5 Whys */}
-      {activeTab === 'fivewhys' && (
-        <div className="p-5 rounded-xl border border-zinc-800 bg-[#0c0c11] space-y-3">
-          <span className="text-[10px] font-bold text-emerald-400 uppercase tracking-wider block">
-            Five Whys Problem-Solving Chain
-          </span>
-          <FiveWhysAccordion
-            fiveWhys={result?.fiveWhys}
-            finalRootCause={result?.finalRootCause || result?.mostLikelyCause}
-          />
-        </div>
-      )}
+          {/* Attached Evidence & Log Files */}
+          <div className="p-4 rounded-lg border border-[#dfe1e6] bg-white space-y-3 text-xs">
+            <h3 className="font-bold text-xs uppercase tracking-wider text-[#5e6c84] flex items-center gap-1 border-b border-[#ebecf0] pb-2">
+              <FileText className="w-3.5 h-3.5" /> Attachments &amp; Logs
+            </h3>
 
-      {/* Tab 3: Recommendations */}
-      {activeTab === 'recommendations' && (
-        <div className="p-5 rounded-xl border border-zinc-800 bg-[#0c0c11] space-y-3">
-          <span className="text-[10px] font-bold text-emerald-400 uppercase tracking-wider block">
-            Remediation Action Plan &amp; Countermeasures
-          </span>
-          <RecommendationCard recommendations={result?.recommendations} />
-        </div>
-      )}
+            {evidenceList && evidenceList.length > 0 ? (
+              <ul className="space-y-2">
+                {evidenceList.map((ev) => (
+                  <li key={ev._id} className="p-2 rounded bg-[#f4f5f7] border border-[#dfe1e6] flex items-center justify-between text-xs">
+                    <div className="truncate max-w-[180px]">
+                      <span className="font-semibold block truncate">{ev.fileName}</span>
+                      <span className="text-[10px] text-[#5e6c84]">{(ev.fileSize / 1024).toFixed(1)} KB</span>
+                    </div>
+                    <button
+                      onClick={() => handleDeleteEvidence(ev._id)}
+                      className="text-[#6b778c] hover:text-[#de350b] p-1"
+                      title="Remove file"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="text-xs text-[#5e6c84]">No log files attached.</p>
+            )}
 
-      {/* Tab 4: Evidence Upload & Preview */}
-      {activeTab === 'evidence' && (
-        <div className="space-y-4">
-          <div className="p-4 rounded-xl border border-zinc-800 bg-[#0c0c11] text-xs space-y-3">
-            <span className="text-[10px] font-bold text-emerald-400 uppercase tracking-wider block">
-              Attach Server Logs or Telemetry Dump
-            </span>
-            <form onSubmit={handleUploadEvidence} className="flex flex-col sm:flex-row items-center gap-2">
+            {/* Quick Upload Form */}
+            <form onSubmit={handleUploadEvidence} className="pt-2 border-t border-[#ebecf0] space-y-2">
+              <label className="block text-[11px] font-semibold text-[#5e6c84]">
+                Attach Server Log (.log, .txt, .pdf):
+              </label>
               <input
                 type="file"
-                accept=".txt,.log,.csv,.pdf"
                 onChange={(e) => setNewFile(e.target.files[0] || null)}
-                className="block w-full text-xs text-zinc-400 file:mr-3 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-zinc-800 file:text-zinc-200"
+                className="block w-full text-xs text-[#5e6c84] file:mr-2 file:py-1 file:px-2.5 file:rounded file:border file:border-[#dfe1e6] file:text-xs file:bg-[#f4f5f7] file:text-[#172b4d]"
               />
               <button
                 type="submit"
                 disabled={!newFile || uploading}
-                className="w-full sm:w-auto px-4 py-1.5 rounded-md text-xs font-bold text-black bg-emerald-400 hover:bg-emerald-300 disabled:opacity-50 transition"
+                className="w-full py-1.5 rounded bg-[#0052cc] hover:bg-[#0065ff] disabled:opacity-50 text-white font-medium text-xs transition"
               >
-                {uploading ? 'Extracting...' : 'Upload & Correlate'}
+                {uploading ? 'Parsing...' : 'Attach & Re-Analyze'}
               </button>
             </form>
           </div>
 
-          {/* List of Evidence Files */}
-          {evidenceList && evidenceList.length > 0 ? (
-            <div className="space-y-3">
-              {evidenceList.map((file) => (
-                <div
-                  key={file._id}
-                  className="p-4 rounded-xl border border-zinc-800 bg-[#0c0c11] text-xs space-y-2.5"
-                >
-                  <div className="flex items-center justify-between border-b border-zinc-800 pb-2">
-                    <div className="flex items-center gap-2">
-                      <FileText className="w-4 h-4 text-emerald-400" />
-                      <span className="font-bold text-white">
-                        {file.fileName}
-                      </span>
-                      <span className="text-[10px] text-zinc-500">
-                        ({(file.fileSize / 1024).toFixed(1)} KB)
-                      </span>
-                    </div>
-                    <button
-                      onClick={() => handleDeleteEvidence(file._id)}
-                      className="text-rose-400 hover:text-rose-300 text-xs"
-                    >
-                      Delete
-                    </button>
-                  </div>
-
-                  {file.detectedErrors && file.detectedErrors.length > 0 && (
-                    <div className="space-y-1">
-                      <span className="text-[10px] font-bold text-rose-400">
-                        DETECTED ERROR PATTERNS ({file.detectedErrors.length}):
-                      </span>
-                      <div className="bg-rose-950/20 border border-rose-500/20 rounded-lg p-2.5 max-h-32 overflow-y-auto text-[10px] text-rose-300 space-y-1">
-                        {file.detectedErrors.map((err, eIdx) => (
-                          <div key={eIdx}>{err}</div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-
-                  <div className="pt-1">
-                    <span className="text-[10px] text-zinc-500 block mb-0.5">CONTENT SNIPPET:</span>
-                    <pre className="p-2.5 rounded-lg bg-[#060609] border border-zinc-800/80 text-zinc-400 text-[10px] max-h-28 overflow-y-auto whitespace-pre-wrap">
-                      {file.extractedContent?.substring(0, 600) || 'No readable text extracted.'}
-                    </pre>
-                  </div>
-                </div>
-              ))}
+          {/* Engine Metadata Box */}
+          <div className="p-3.5 rounded-lg border border-[#dfe1e6] bg-[#fafbfc] text-xs space-y-1 text-[#5e6c84]">
+            <div className="flex justify-between">
+              <span>Reasoning Engine:</span>
+              <span className="font-semibold text-[#172b4d]">Local Inference (Offline)</span>
             </div>
-          ) : (
-            <div className="p-8 text-center text-xs text-zinc-500 border border-dashed border-zinc-800 rounded-xl">
-              No evidence files attached to this investigation.
+            <div className="flex justify-between">
+              <span>Issue Key:</span>
+              <span className="font-semibold text-[#0052cc]">{issueKey}</span>
             </div>
-          )}
+          </div>
+
         </div>
-      )}
+
+      </div>
+
     </div>
   );
 };

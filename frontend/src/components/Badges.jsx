@@ -1,43 +1,44 @@
 import React from 'react';
 
+// Jira Style Priority Badges with Atlassian Colors
 export const SeverityBadge = ({ severity }) => {
   const styles = {
-    Critical: 'bg-rose-500/10 text-rose-400 border-rose-500/30',
-    High: 'bg-amber-500/10 text-amber-400 border-amber-500/30',
-    Medium: 'bg-sky-500/10 text-sky-400 border-sky-500/30',
-    Low: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30',
+    Critical: 'bg-[#ffebe6] text-[#de350b] border-[#ffbdad]',
+    High: 'bg-[#fffae6] text-[#ff8b00] border-[#ffe380]',
+    Medium: 'bg-[#deebff] text-[#0747a6] border-[#b3d4ff]',
+    Low: 'bg-[#e3fcef] text-[#006644] border-[#abf5d1]',
   };
 
-  const dotColors = {
-    Critical: 'bg-rose-500',
-    High: 'bg-amber-500',
-    Medium: 'bg-sky-500',
-    Low: 'bg-emerald-500',
+  const icons = {
+    Critical: '▲ Highest',
+    High: '▲ High',
+    Medium: '= Medium',
+    Low: '▼ Low',
   };
 
   const currentStyle = styles[severity] || styles.Medium;
-  const dotColor = dotColors[severity] || 'bg-sky-500';
+  const label = icons[severity] || severity;
 
   return (
-    <span className={`inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-mono font-semibold border ${currentStyle}`}>
-      <span className={`w-1.5 h-1.5 mr-1.5 rounded-full ${dotColor}`}></span>
-      {severity?.toUpperCase()}
+    <span className={`inline-flex items-center px-1.5 py-0.5 rounded text-[11px] font-medium border ${currentStyle}`}>
+      {label}
     </span>
   );
 };
 
+// Jira Style Status Lozenges (e.g. TO DO, IN PROGRESS, RESOLVED)
 export const StatusBadge = ({ status }) => {
   const styles = {
-    Open: 'bg-amber-500/10 text-amber-400 border-amber-500/30',
-    'In Progress': 'bg-cyan-500/10 text-cyan-400 border-cyan-500/30',
-    Resolved: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30',
+    Open: 'bg-[#dfe1e6] text-[#42526e]',
+    'In Progress': 'bg-[#deebff] text-[#0747a6]',
+    Resolved: 'bg-[#e3fcef] text-[#006644]',
   };
 
   const currentStyle = styles[status] || styles.Open;
 
   return (
-    <span className={`inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-mono font-medium border ${currentStyle}`}>
-      {status}
+    <span className={`inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${currentStyle}`}>
+      {status === 'Open' ? 'TO DO' : status === 'Resolved' ? 'RESOLVED' : status}
     </span>
   );
 };

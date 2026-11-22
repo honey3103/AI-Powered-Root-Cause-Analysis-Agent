@@ -8,23 +8,21 @@ export default {
   theme: {
     extend: {
       colors: {
-        coroot: {
-          bg: '#050507',
-          surface: '#0d0d12',
-          card: '#121217',
-          cardHover: '#181820',
-          border: '#23232c',
-          borderHover: '#32323f',
-          green: '#10b981',
-          cyan: '#06b6d4',
-          amber: '#f59e0b',
-          rose: '#f43f5e',
+        jira: {
+          bg: '#f4f5f7',
+          card: '#ffffff',
+          border: '#dfe1e6',
+          borderHover: '#c1c7d0',
+          blue: '#0052cc',
+          blueHover: '#0065ff',
+          text: '#172b4d',
+          muted: '#5e6c84',
+          subtle: '#6b778c',
         },
       },
       fontFamily: {
         sans: [
           'Roboto',
-          'system-ui',
           '-apple-system',
           'BlinkMacSystemFont',
           '"Segoe UI"',
@@ -33,9 +31,6 @@ export default {
         ],
         mono: [
           'ui-monospace',
-          'SFMono-Regular',
-          'Menlo',
-          'Monaco',
           'Consolas',
           '"Courier New"',
           'monospace',

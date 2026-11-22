@@ -4,10 +4,10 @@ import api from '../api/client';
 import { 
   Upload, 
   AlertCircle, 
-  Terminal,
-  Play,
-  Lightbulb,
-  FileCode
+  Plus, 
+  HelpCircle,
+  FileText,
+  Sparkles
 } from 'lucide-react';
 
 const CATEGORIES = [
@@ -109,191 +109,170 @@ export const NewAnalysisPage = () => {
   };
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8 max-w-4xl mx-auto space-y-6 font-mono text-zinc-100">
-      {/* Top Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-zinc-800 pb-3">
+    <div className="p-4 sm:p-6 max-w-4xl mx-auto space-y-4 text-[#172b4d]">
+      
+      {/* Top Breadcrumb & Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#dfe1e6] pb-3">
         <div>
-          <h1 className="text-xl font-bold text-white flex items-center gap-2">
-            <Terminal className="w-5 h-5 text-emerald-400" />
-            coroot / intake-terminal
+          <h1 className="text-xl font-bold text-[#172b4d] tracking-tight">
+            Create Issue / Investigation
           </h1>
-          <p className="text-xs text-zinc-500 mt-0.5 font-sans">
-            Feed incident symptoms, error logs, and recent deployments into Coroot RCA Engine.
+          <p className="text-xs text-[#5e6c84] mt-0.5">
+            Log a new production incident for automated 5-Whys deduction and root cause analysis.
           </p>
         </div>
 
-        {/* Demo Templates */}
+        {/* Quick Sample Presets */}
         <div className="flex items-center gap-2">
           <button
             type="button"
             onClick={loadExample502}
-            className="px-2.5 py-1.5 rounded-md text-xs bg-zinc-900 border border-zinc-800 text-zinc-300 hover:text-white hover:border-zinc-700 transition"
+            className="px-2.5 py-1 text-xs font-medium rounded bg-[#ebecf0] hover:bg-[#dfe1e6] text-[#172b4d]"
           >
-            Demo 502 Outage
+            Load 502 Outage Demo
           </button>
           <button
             type="button"
             onClick={loadExampleDb}
-            className="px-2.5 py-1.5 rounded-md text-xs bg-zinc-900 border border-zinc-800 text-zinc-300 hover:text-white hover:border-zinc-700 transition"
+            className="px-2.5 py-1 text-xs font-medium rounded bg-[#ebecf0] hover:bg-[#dfe1e6] text-[#172b4d]"
           >
-            Demo DB Timeout
+            Load DB Pool Demo
           </button>
         </div>
       </div>
 
       {error && (
-        <div className="p-3 rounded-lg bg-rose-500/10 border border-rose-500/30 text-rose-400 text-xs flex items-center gap-2">
+        <div className="p-3 rounded bg-[#ffebe6] border border-[#ffbdad] text-[#de350b] text-xs flex items-center gap-2">
           <AlertCircle className="w-4 h-4 flex-shrink-0" />
           <span>{error}</span>
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-4 text-xs">
-        {/* Section 1: Problem Definition */}
-        <div className="p-4 rounded-xl border border-zinc-800 bg-[#0c0c11] space-y-3">
-          <span className="text-[10px] uppercase font-bold text-emerald-400 tracking-wider block">
-            1. INCIDENT DEFINITION &amp; TELEMETRY CONTEXT
-          </span>
+      {/* Jira Create Form */}
+      <form onSubmit={handleSubmit} className="p-5 rounded-lg border border-[#dfe1e6] bg-white space-y-4 text-xs">
+        
+        {/* Issue Summary / Title */}
+        <div>
+          <label className="block font-semibold text-[#172b4d] mb-1">
+            Summary / Incident Title <span className="text-[#de350b]">*</span>
+          </label>
+          <input
+            type="text"
+            required
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="e.g. Web Service Returning HTTP 502 Bad Gateway"
+            className="w-full px-3 py-1.5 rounded border border-[#dfe1e6] bg-white text-[#172b4d] focus:outline-none focus:border-[#4c9aff] text-xs"
+          />
+        </div>
 
+        {/* Two-column selectors */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label className="block text-zinc-300 font-semibold mb-1">
-              Incident Title <span className="text-rose-500">*</span>
+            <label className="block font-semibold text-[#172b4d] mb-1">
+              Issue Category <span className="text-[#de350b]">*</span>
             </label>
-            <input
-              type="text"
-              required
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              placeholder="e.g. Website returning HTTP 502 Bad Gateway after deployment"
-              className="w-full px-3 py-2 rounded-lg border border-zinc-800 bg-[#08080c] text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
-            />
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <div>
-              <label className="block text-zinc-300 font-semibold mb-1">
-                Category
-              </label>
-              <select
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
-                className="w-full px-3 py-2 rounded-lg border border-zinc-800 bg-[#08080c] text-white focus:outline-none focus:border-emerald-500"
-              >
-                {CATEGORIES.map((cat) => (
-                  <option key={cat} value={cat}>
-                    {cat}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div>
-              <label className="block text-zinc-300 font-semibold mb-1">
-                Severity
-              </label>
-              <select
-                value={severity}
-                onChange={(e) => setSeverity(e.target.value)}
-                className="w-full px-3 py-2 rounded-lg border border-zinc-800 bg-[#08080c] text-white focus:outline-none focus:border-emerald-500"
-              >
-                {SEVERITIES.map((sev) => (
-                  <option key={sev} value={sev}>
-                    {sev} Severity
-                  </option>
-                ))}
-              </select>
-            </div>
+            <select
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              className="w-full px-3 py-1.5 rounded border border-[#dfe1e6] bg-white text-[#172b4d] focus:outline-none focus:border-[#4c9aff] text-xs"
+            >
+              {CATEGORIES.map((cat) => (
+                <option key={cat} value={cat}>
+                  {cat}
+                </option>
+              ))}
+            </select>
           </div>
 
           <div>
-            <label className="block text-zinc-300 font-semibold mb-1">
-              Incident Description <span className="text-rose-500">*</span>
+            <label className="block font-semibold text-[#172b4d] mb-1">
+              Priority / Severity <span className="text-[#de350b]">*</span>
             </label>
-            <textarea
-              required
-              rows={3}
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              placeholder="Describe symptoms, what broke, and affected endpoints..."
-              className="w-full px-3 py-2 rounded-lg border border-zinc-800 bg-[#08080c] text-white font-sans focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
-            />
+            <select
+              value={severity}
+              onChange={(e) => setSeverity(e.target.value)}
+              className="w-full px-3 py-1.5 rounded border border-[#dfe1e6] bg-white text-[#172b4d] focus:outline-none focus:border-[#4c9aff] text-xs"
+            >
+              {SEVERITIES.map((sev) => (
+                <option key={sev} value={sev}>
+                  {sev} Priority
+                </option>
+              ))}
+            </select>
           </div>
         </div>
 
-        {/* Section 2: Symptoms & Traces */}
-        <div className="p-4 rounded-xl border border-zinc-800 bg-[#0c0c11] space-y-3">
-          <span className="text-[10px] uppercase font-bold text-emerald-400 tracking-wider block">
-            2. ANOMALIES &amp; LOG SIGNATURES
-          </span>
+        {/* Description */}
+        <div>
+          <label className="block font-semibold text-[#172b4d] mb-1">
+            Description <span className="text-[#de350b]">*</span>
+          </label>
+          <textarea
+            required
+            rows={4}
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            placeholder="Describe what occurred, impacted endpoints, and observed downtime..."
+            className="w-full px-3 py-2 rounded border border-[#dfe1e6] bg-white text-[#172b4d] focus:outline-none focus:border-[#4c9aff] text-xs leading-relaxed"
+          />
+        </div>
 
+        {/* Symptoms & Error Traces */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label className="block text-zinc-300 font-semibold mb-1">
-              Observed Symptoms (Comma separated)
+            <label className="block font-semibold text-[#172b4d] mb-1">
+              Symptoms (Comma separated)
             </label>
             <input
               type="text"
               value={symptoms}
               onChange={(e) => setSymptoms(e.target.value)}
-              placeholder="e.g. 502 Bad Gateway, high latency, socket timeout"
-              className="w-full px-3 py-2 rounded-lg border border-zinc-800 bg-[#08080c] text-white focus:outline-none focus:border-emerald-500"
+              placeholder="e.g. 502 Bad Gateway, timeout, socket hangup"
+              className="w-full px-3 py-1.5 rounded border border-[#dfe1e6] bg-white text-[#172b4d] focus:outline-none focus:border-[#4c9aff] text-xs"
             />
           </div>
 
           <div>
-            <label className="block text-zinc-300 font-semibold mb-1">
-              Error Messages / Stack Trace
+            <label className="block font-semibold text-[#172b4d] mb-1">
+              Recent Deployments / Changes
             </label>
-            <textarea
-              rows={3}
-              value={errorMessages}
-              onChange={(e) => setErrorMessages(e.target.value)}
-              placeholder="Paste exact error log lines, HTTP error codes, or stack traces..."
-              className="w-full text-[11px] px-3 py-2 rounded-lg border border-zinc-800 bg-[#08080c] text-emerald-400 focus:outline-none focus:border-emerald-500"
+            <input
+              type="text"
+              value={recentChanges}
+              onChange={(e) => setRecentChanges(e.target.value)}
+              placeholder="e.g. Merged PR #142, base image upgrade"
+              className="w-full px-3 py-1.5 rounded border border-[#dfe1e6] bg-white text-[#172b4d] focus:outline-none focus:border-[#4c9aff] text-xs"
             />
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <div>
-              <label className="block text-zinc-300 font-semibold mb-1">
-                Time of Occurrence
-              </label>
-              <input
-                type="text"
-                value={timeOfOccurrence}
-                onChange={(e) => setTimeOfOccurrence(e.target.value)}
-                placeholder="e.g. 2026-11-22 12:45 UTC or Today 10:15 AM"
-                className="w-full px-3 py-2 rounded-lg border border-zinc-800 bg-[#08080c] text-white focus:outline-none focus:border-emerald-500"
-              />
-            </div>
-
-            <div>
-              <label className="block text-zinc-300 font-semibold mb-1">
-                Recent Changes / Deployments
-              </label>
-              <input
-                type="text"
-                value={recentChanges}
-                onChange={(e) => setRecentChanges(e.target.value)}
-                placeholder="e.g. Release v2.4, config file update, schema migration"
-                className="w-full px-3 py-2 rounded-lg border border-zinc-800 bg-[#08080c] text-white focus:outline-none focus:border-emerald-500"
-              />
-            </div>
           </div>
         </div>
 
-        {/* Section 3: Evidence File Intake */}
-        <div className="p-4 rounded-xl border border-zinc-800 bg-[#0c0c11] space-y-2">
-          <span className="text-[10px] uppercase font-bold text-emerald-400 tracking-wider block">
-            3. LOG FILE &amp; TELEMETRY EVIDENCE
-          </span>
+        {/* Stack Trace / Logs input */}
+        <div>
+          <label className="block font-semibold text-[#172b4d] mb-1">
+            Error Log Snippet / Stack Trace
+          </label>
+          <textarea
+            rows={3}
+            value={errorMessages}
+            onChange={(e) => setErrorMessages(e.target.value)}
+            placeholder="Paste raw error line, HTTP 500/502 output, or crash dump..."
+            className="w-full px-3 py-2 rounded border border-[#dfe1e6] bg-[#fafbfc] font-mono text-xs text-[#de350b] focus:outline-none focus:border-[#4c9aff]"
+          />
+        </div>
 
-          <label className="flex flex-col items-center justify-center border border-dashed border-zinc-800 hover:border-emerald-500/60 rounded-xl p-5 cursor-pointer bg-[#08080c] hover:bg-[#0d0d14] transition">
-            <Upload className="w-6 h-6 text-emerald-400 mb-1" />
-            <span className="font-semibold text-zinc-300 text-xs">
-              {file ? file.name : 'Select or drop raw log file for automated regex extraction'}
+        {/* File Attachment Dropzone */}
+        <div>
+          <label className="block font-semibold text-[#172b4d] mb-1">
+            Attachment / Log File (.log, .txt, .pdf, .csv)
+          </label>
+          <label className="flex flex-col items-center justify-center border-2 border-dashed border-[#dfe1e6] hover:border-[#4c9aff] rounded-lg p-5 cursor-pointer bg-[#fafbfc] hover:bg-white transition">
+            <Upload className="w-5 h-5 text-[#5e6c84] mb-1" />
+            <span className="font-semibold text-[#172b4d] text-xs">
+              {file ? file.name : 'Click to browse or drop log file here'}
             </span>
             {file && (
-              <span className="text-[10px] text-emerald-400 mt-0.5">
+              <span className="text-[11px] text-[#006644] mt-0.5">
                 {(file.size / 1024).toFixed(1)} KB selected
               </span>
             )}
@@ -306,33 +285,33 @@ export const NewAnalysisPage = () => {
         </div>
 
         {/* Action Buttons */}
-        <div className="flex items-center justify-end gap-2 pt-2">
+        <div className="flex items-center justify-end gap-2 pt-2 border-t border-[#ebecf0]">
           <button
             type="button"
             onClick={() => navigate('/dashboard')}
-            className="px-4 py-2 rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-900 transition"
+            className="px-3.5 py-1.5 rounded text-[#42526e] hover:bg-[#ebecf0] font-medium"
           >
             Cancel
           </button>
+
           <button
             type="submit"
             disabled={loading}
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg font-bold text-black bg-emerald-400 hover:bg-emerald-300 transition shadow-[0_0_15px_rgba(16,185,129,0.25)] disabled:opacity-50"
+            className="px-4 py-1.5 rounded bg-[#0052cc] hover:bg-[#0065ff] disabled:opacity-50 text-white font-medium text-xs shadow-sm flex items-center gap-1.5"
           >
             {loading ? (
-              <>
-                <div className="w-3.5 h-3.5 border-2 border-black border-t-transparent rounded-full animate-spin"></div>
-                <span>Correlating Evidence...</span>
-              </>
+              <span>Running Analysis...</span>
             ) : (
               <>
-                <Play className="w-3.5 h-3.5 fill-current" />
-                <span>Execute Coroot RCA</span>
+                <Plus className="w-3.5 h-3.5" />
+                <span>Create &amp; Analyze</span>
               </>
             )}
           </button>
         </div>
+
       </form>
+
     </div>
   );
 };

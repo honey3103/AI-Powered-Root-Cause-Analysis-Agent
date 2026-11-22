@@ -3,19 +3,17 @@ import React, { createContext, useContext, useEffect } from 'react';
 const ThemeContext = createContext();
 
 export const ThemeProvider = ({ children }) => {
-  // Lock theme permanently to dark (static black Coroot aesthetic)
-  const theme = 'dark';
+  // Jira clean enterprise light theme
+  const theme = 'light';
 
   useEffect(() => {
     const root = window.document.documentElement;
-    root.classList.add('dark');
-    root.style.colorScheme = 'dark';
-    localStorage.setItem('rca_theme', 'dark');
+    root.classList.remove('dark');
+    root.style.colorScheme = 'light';
+    localStorage.setItem('rca_theme', 'light');
   }, []);
 
-  const toggleTheme = () => {
-    // Static dark theme - no-op or inform user
-  };
+  const toggleTheme = () => {};
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
