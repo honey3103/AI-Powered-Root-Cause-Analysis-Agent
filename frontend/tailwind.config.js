@@ -22,8 +22,9 @@ export default {
         },
       },
       fontFamily: {
-        sans: ['Inter', 'sans-serif'],
+        sans: ['"Plus Jakarta Sans"', 'Inter', 'sans-serif'],
         mono: ['"JetBrains Mono"', 'monospace'],
+        display: ['"Space Grotesk"', '"Plus Jakarta Sans"', 'sans-serif'],
       },
     },
   },

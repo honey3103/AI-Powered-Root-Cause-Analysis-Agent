@@ -9,7 +9,8 @@
   body {
     background-color: #050507;
     color: #e4e4e7;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    letter-spacing: -0.015em;
   }
 }
 
