@@ -284,7 +284,7 @@ export const NewAnalysisPage = () => {
         {/* Section 3: Evidence File Intake */}
         <div className="p-4 rounded-xl border border-zinc-800 bg-[#0c0c11] space-y-2">
           <span className="text-[10px] uppercase font-bold text-emerald-400 tracking-wider block">
-            3. LOG FILE &amp; TELEMETRY EVIDENCE (.LOG, .TXT, .CSV, .PDF)
+            3. LOG FILE &amp; TELEMETRY EVIDENCE
           </span>
 
           <label className="flex flex-col items-center justify-center border border-dashed border-zinc-800 hover:border-emerald-500/60 rounded-xl p-5 cursor-pointer bg-[#08080c] hover:bg-[#0d0d14] transition">
@@ -292,12 +292,13 @@ export const NewAnalysisPage = () => {
             <span className="font-semibold text-zinc-300 text-xs">
               {file ? file.name : 'Select or drop raw log file for automated regex extraction'}
             </span>
-            <span className="text-[10px] text-zinc-500 mt-0.5">
-              {file ? `${(file.size / 1024).toFixed(1)} KB selected` : 'Supports .log, .txt, .csv, .pdf (Max 10MB)'}
-            </span>
+            {file && (
+              <span className="text-[10px] text-emerald-400 mt-0.5">
+                {(file.size / 1024).toFixed(1)} KB selected
+              </span>
+            )}
             <input
               type="file"
-              accept=".txt,.log,.csv,.pdf"
               onChange={(e) => setFile(e.target.files[0] || null)}
               className="hidden"
             />

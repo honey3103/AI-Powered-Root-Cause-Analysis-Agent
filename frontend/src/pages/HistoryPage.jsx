@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../api/client';
 import { SeverityBadge, StatusBadge } from '../components/Badges';
-import { 
-  Search, 
-  Trash2, 
-  ArrowRight, 
-  Printer, 
+import {
+  Search,
+  Trash2,
+  ArrowRight,
+  Printer,
   Plus,
   FileText,
   Terminal
