@@ -249,67 +249,6 @@ export const DashboardPage = () => {
           )}
         </div>
       </div>
-
-      {/* Recent Incident Feed */}
-      <div className="p-4 rounded-xl border border-zinc-800 bg-[#0c0c11] shadow-sm">
-        <div className="flex items-center justify-between mb-3 border-b border-zinc-800/80 pb-2">
-          <div>
-            <h3 className="text-xs font-bold text-white uppercase tracking-wider">
-              Recent Incident Feed
-            </h3>
-          </div>
-          <Link
-            to="/history"
-            className="text-xs font-medium text-emerald-400 hover:underline flex items-center gap-1"
-          >
-            All Investigations <ArrowRight className="w-3 h-3" />
-          </Link>
-        </div>
-
-        {stats?.recentAnalyses && stats.recentAnalyses.length > 0 ? (
-          <div className="divide-y divide-zinc-800/60 text-xs">
-            {stats.recentAnalyses.map((item) => (
-              <div
-                key={item._id}
-                className="py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2 hover:bg-zinc-900/30 px-2 rounded-lg transition"
-              >
-                <div className="space-y-1">
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <Link
-                      to={`/analysis/${item._id}`}
-                      className="font-bold text-white hover:text-emerald-400 transition"
-                    >
-                      {item.title}
-                    </Link>
-                    <SeverityBadge severity={item.severity} />
-                    <StatusBadge status={item.status} />
-                  </div>
-                  <p className="text-[11px] text-zinc-400 line-clamp-1 max-w-xl font-sans">
-                    {item.description}
-                  </p>
-                </div>
-
-                <div className="flex items-center gap-3 text-[11px] text-zinc-500">
-                  <span className="px-2 py-0.5 rounded bg-zinc-900 border border-zinc-800 text-zinc-300">
-                    {item.category}
-                  </span>
-                  <span>{new Date(item.createdAt).toLocaleDateString()}</span>
-                  <Link
-                    to={`/analysis/${item._id}`}
-                    className="p-1 rounded text-zinc-400 hover:text-white"
-                  >
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </Link>
-                </div>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className="py-8 text-center text-xs text-zinc-500">
-            No incident records found. Click &quot;New Investigation&quot; to begin.
-          </div>
-        )}
-      </div>
     </div>
   );
 };
